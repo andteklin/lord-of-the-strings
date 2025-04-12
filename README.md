@@ -1,12 +1,13 @@
-# Project Descriptions for Team ana59-nk548
+# Project Descriptions for Team ap2357-dev38-nbt26
 
 Please finalize your project and team by April 18th and update this README.md file accordingly.
 
-## ana59
-For this project, we would like to create a simple and interactive text input system that allows users to "type" messages by physically tilting the FRDM-KL46Z board. The idea is to use the board’s built-in accelerometer to navigate through characters and its onboard buttons to select them. As the user tilts the board left or right, the system will scroll through a set of characters, and pressing a button will confirm the selection. The typed message will be displayed on the LCD or printed to a serial terminal. The goal is to demonstrate how onboard motion sensors and basic user input can be combined to build a creative and practical interface without the need for any external components.## nk548
-partner submitted this
+## ap2357
+## dev38
+For our final project we wanted to make a memory sequence game. Essentially, our game will light up the board's built in LEDs and the LEDs on the extension in a randomly generated sequence. The user must mimic this sequence. The sequence starts with 1 LED but every 'round' we guess the sequence correct, one more LED flash is added to it. If a user guesses incorrectly, the sequence restarts. We will incorporate visual feedback; the board's built in green LED will signal if we correctly guessed the sequence this round otherwise the red LED will flash. We also want to incorporate audio for when we click the buttons, guess correctly, and guess incorrectly.## nbt26
+
 # Feedback
 
 # Project Web-Page
 
-The project web-pages will also be hosted on github in this repo in the "page" branch. You can edit it by switching branches and modifying the files, or by pushing to the branch. Here is a link to a minimal web-page that you can edit and modify: [https://pages.github.coecis.cornell.edu/ece3140-sp2025/ana59-nk548](https://pages.github.coecis.cornell.edu/ece3140-sp2025/ana59-nk548)
+The project web-pages will also be hosted on github in this repo in the "page" branch. You can edit it by switching branches and modifying the files, or by pushing to the branch. Here is a link to a minimal web-page that you can edit and modify: [https://pages.github.coecis.cornell.edu/ece3140-sp2025/ap2357-dev38-nbt26](https://pages.github.coecis.cornell.edu/ece3140-sp2025/ap2357-dev38-nbt26)

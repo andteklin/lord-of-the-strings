@@ -1,6 +1,6 @@
 # Your project ECE3140 page!
 
-You can modify this page to create your final project page. Right now, the page is generated from a Markdown file (index.md) in the `page` branch. You can edit it directly from the git web interface or push it to the branch. There are a few [standard themes](https://pages.github.com/themes/) github provides. This one is `minimal`. If you'd like to change it, you can edit the `\_config.yml` file.
+You can modify this page to create your final project page. Right now, the page is generated from a Markdown file (index.md) in the `page` branch. You can edit it directly from the git web interface or push it to the branch. There are a few [standard themes](https://pages.github.com/themes/) github provides. This one is `minimal`. If you'd like to change it, you can edit the `_config.yml` file.
 
 The Markdown interface is easy, but if you would like to do something different you can add an index.html file to the branch (and any supporitng style sheets etc.) and it will be served as the webpage instead. 
 
@@ -22,15 +22,15 @@ We would like your final project page to have the following structure:
 - Team work (if applicable)
 - Outside resrouces
 
-## The section headings we expct to see are:
+## The section headings we expct to see are (please do not change them):
 
-#### Overview (Fill in for web checkin May 3)
-In addition to the text, this should have the video (not needed by May 3) and the system diagram in it. You can embed an youtube video here. Please use a horizontal layout for the video if possible. 
-#### Technical Approach (Fill in for web checkin May 3)
+#### Overview (Fill in for web checkin April 30th)
+In addition to the text, this should have the video (not needed by April 30th) and the system diagram in it. You can embed an youtube video here. Please use a horizontal layout for the video if possible. 
+#### Technical Approach (Fill in for web checkin April 30th)
 Use pictures and diagram where appropriate. For the checkin we want a draft of this section, you are free to change it further. 
 #### Testing and Debugging
 Talk about your testing approach or subtle bugs you made/found.
 #### Team Work 
 How did you coordinate? Who was responsible for what? You can skip this section if you work alone. 
-#### Outside Resources
-If you are using a code base from outside of class, or found a particular resource helpful, please put it here. 
+#### Outside Resources 
+If you are using a code base from outside of class, or found a particular resource helpful, please put it here. Describe any use of generative AI tools here as well. What did they do well.

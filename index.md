@@ -33,4 +33,4 @@ Talk about your testing approach or subtle bugs you made/found.
 #### Team Work 
 How did you coordinate? Who was responsible for what? You can skip this section if you work alone. 
 #### Outside Resources 
-If you are using a code base from outside of class, or found a particular resource helpful, please put it here. Describe any use of generative AI tools here as well. What did they do well.
+If you are using a code base from outside of class, or found a particular resource helpful, please put it here. Describe any use of generative AI tools here as well.

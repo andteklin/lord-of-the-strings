@@ -1,20 +1,15 @@
 # Project Descriptions for Team ahl92-am2736-nsv23
 
-Please finalize your project and team by April 18th and update this README.md file accordingly.
+Our primary goal involves creating a robotic guitar strummer mounted on the guitar body. We wish to program sensors and buttons on the board to control the speed and strumming style. Much of the software will involve testing and debugging the sensor-to-arm control scheme and fine-tuning the movement of the strumming arm. Later on, we plan to add on a muting mechanism to imitate the guitar palm muting technique.
 
 ## ahl92
-We wish to create a robotic guitar plucker mounted on the guitar body. As for software, we wish to program these sensors to move the strumming arm at a certain speed and direction in a loop. Much of the software will involve testing and debugging the sensor-to-arm control scheme and fine-tuning the movement of the strumming arm. 
 ## am2736
 ## nsv23
 
-# Feedback
-
-This is a great project and I would love to see this work! It is pretty ambitious. Do you have a robotic arm to work with? If you don't have an arm already, I suggest you use micro servos since you can control the position fairly easily and then mount a pick on the servo horn. The easiest would be to have one servo per string. 
-
-How are you planning on mounting the device on the guitar? I would be happy to let you use some of our research lab's 3D printers if you need access.
-
-Let me know some more details on how you plan to go about this and I am happy to give you more detailed advice.  If this ends up getting too difficult, focus on getting a subsystem to work first. Even with a simpler system you could do a great demo. For example, if you can pluck a single string, you could have the board pluck out a single-note background track and then play over it.
-
+# Additional Hardware
+We plan to use SG90 servo motors to move the strumming arm and muting mechanism. 
+We also plan to use a clamp or 3D print some mounting mechanism to secure the servo as it strums the strings.
+We will use a 3D printed arm screwed onto the servo horn.
 
 # Project Web-Page
 

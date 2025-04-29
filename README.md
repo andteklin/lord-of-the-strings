@@ -1,6 +1,6 @@
 # Project Descriptions for Team ahl92-am2736-nsv23
 
-Our primary goal involves creating a robotic guitar strummer mounted on the guitar body. We wish to program sensors and buttons on the board to control the speed and strumming style. Much of the software will involve testing and debugging the sensor-to-arm control scheme and fine-tuning the movement of the strumming arm. Later on, we plan to add on a muting mechanism to imitate the guitar palm muting technique.
+The Lord of the Strings is more than just a simple guitar strummer. This robot attempts to implement palm muting, a technique for a more advanced guitarist. We wish to program the board to control the speed and strumming style. Much of the software will involve testing and debugging the sensor-to-arm control scheme and fine-tuning the movement of the strumming arm. We plan to add on a felt muting bar near the bridge to imitate the guitar palm muting technique.
 
 ## ahl92
 ## am2736

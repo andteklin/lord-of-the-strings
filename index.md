@@ -26,14 +26,15 @@ We would like your final project page to have the following structure:
 The Lord of the Strings is more than just a simple guitar strummer. This robot attempts to implement palm muting, a technique for a more advanced guitarist. We wish to program the board to control the speed and strumming style. Much of the software will involve testing and debugging the sensor-to-arm control scheme and fine-tuning the movement of the strumming arm. We plan to add on a felt muting bar near the bridge to imitate the guitar palm muting technique.
 YouTube Video to be embedded later. 
 ![Sketch](images/sketch.jpg)
+
 #### Technical Approach
-**Mechanical Approach**
+**Mechanical Approach**\
 We will use two clamps to mount a PLA-printed plate onto the upper neck of the guitar. This plate will hold two servos: one for strumming and one for muting. The strumming servo will have a PLA-printed arm with a mounted pick to perform the strumming motion. The muting servo will have a PLA-printed arm with felt attached to the end to mute the strings. Both arms will extend over all six strings to provide strumming and muting capabilities. The plate, servo mounts, and arms will be CAD-designed by the team, while the clamps will be purchased.
 
-**Electrical Approach**
+**Electrical Approach**\
 The electric components of the system include a 6v power supply, a switch, a buck converter, a capacitor, an SG90 servo, and the FRDM board. We will supply the system with 4x 1.5V AA batteries for a combined 6v. A switch will be connected from the output of the power supply to the rest of the circuit. We will then use a buck converter to step down the voltage from 6v to 5v. We will power the FRDM board directly from the 5v output and supply the servo power from the same 5v output through a decoupling capacitor. The FRDM board will output PWM signals to the servo, connected from a GPIO output pin on the FRDM to the signal input on the servo. 
 
-**Software Approach**
+**Software Approach**\
 We will create PWM signaling for servo control similar to the PWM signals we sent to the LEDs in lab 2. We will also implement concurrency by having one servo controlling the strumming arm while the other controls the muting mechanism simultaneously. Timer-based scheduling will be used to run the servos in precise, overlapping coordination. The onboard button will be used to toggle between different programmed styles.
 
 #### Testing and Debugging

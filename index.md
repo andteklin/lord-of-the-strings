@@ -27,7 +27,8 @@ We would like your final project page to have the following structure:
 #### Overview (Fill in for web checkin April 30th)
 In addition to the text, this should have the video (not needed by April 30th) and the system diagram in it. You can embed an youtube video here. Please use a horizontal layout for the video if possible. 
 #### Technical Approach (Fill in for web checkin April 30th)
-Use pictures and diagram where appropriate. For the checkin we want a draft of this section, you are free to change it further. 
+**Mechanical Approach**
+We will use two clamps to mount a PLA-printed plate onto the upper neck of the guitar. This plate will hold two servos: one for strumming and one for muting. The strumming servo will have a PLA-printed arm with a mounted pick to perform the strumming motion. The muting servo will have a PLA-printed arm with felt attached to the end to mute the strings. Both arms will extend over all six strings to provide strumming and muting capabilities. The plate, servo mounts, and arms will be CAD-designed by the team, while the clamps will be purchased.
 #### Testing and Debugging
 Talk about your testing approach or subtle bugs you made/found.
 #### Team Work 

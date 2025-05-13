@@ -1,0 +1,1 @@
+volatile static int i = 1; // counter in memory

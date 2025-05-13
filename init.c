@@ -2,7 +2,6 @@
  * Much of this file code is borrowed from ECE3140Lab2.c
  * 
 */
-#include "ECE3140Lab2.h"
 #include <MKL46Z4.h>
 
 int clock_set = 0;

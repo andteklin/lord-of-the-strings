@@ -17,10 +17,13 @@ int main(void){
     // GPIOB->PDDR |= (1 << 18);                    // PTB18 = output
     // turnCW90();
     while (1) {
-        straight();
-        turnCW90();
-        straight();
-        turnCW90();
+        // mute();
+        // straight();
+        // straight();
+        // turnCW90();
+        // straight();
+        // turnCW90();
+        // poll switch();
     }
     return 0;
 }

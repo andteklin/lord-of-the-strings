@@ -3,7 +3,8 @@
 */
 #include "strummer.h"
 #include "board.h"
-#include "pwm.h" 
+#include "pwm.h"
+#include "patterns.h"
 #include "MKL46Z4.h"
 
 #define TICK_MS 10

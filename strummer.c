@@ -2,6 +2,7 @@
     Implementations of functions in strummer.h
 */
 #include "strummer.h"
+#include "board.h"
 #include "pwm.h" 
 #include "MKL46Z4.h"
 
@@ -9,24 +10,20 @@
 volatile uint32_t ms_counter = 0;
 volatile uint32_t remaining_ms;
 volatile uint8_t step_idx = 0;
-volatile bool loop = 1;
-// For 120 BPM quarter note → 500 ms per beat
-// strumDeadline = ms_counter + 500;
-// bool strumming = true;
-// if (strumming);
+volatile bool loop = 0; // by default no loop
 
 static StrumState strumState;
 // static uint32_t strumDeadline = 0;
 static volatile bool strumming_enabled = true;
 
 // Tempo and base durations
-#define BPM                60                      // beats per minute
+#define BPM                120                      // beats per minute
 #define MS_PER_BEAT        (60000 / BPM)           // ms in one quarter‑note
 #define MS_PER_SIXTEENTH   (MS_PER_BEAT / 4)       // ms in a 16th‑note
 
 // Servo Angle definitions
-#define SU 90
-#define SD 135
+#define SU 0
+#define SD 180
 #define MU 0
 #define MD 0
 
@@ -45,7 +42,7 @@ static volatile bool strumming_enabled = true;
 //     // {720, STRUM_UP}
 // };
 
-// Example “down–up–down–up” on 16ths, then rest for an 8th:
+// The Classic Guitar Strumming Pattern
 static const PatternStep pattern[] = {
     { STRUM_DOWN, DUR_4 },
     { STRUM_UP,   DUR_8 },
@@ -61,7 +58,7 @@ void strummer_init(void) {
     BOARD_InitBootClocks();
     BOARD_BootClockRUN(); // Configure FLL for 48MHz
     SystemCoreClockUpdate();
-    setup();
+    setupPWM();
     PIT_Init(); // initialize PIT timer 10ms
     // Assumes TPM2 and servo channel already configured
     TPM2->CONTROLS[0].CnV = angle_to_cnV(90); // Neutral starting position
@@ -89,8 +86,9 @@ void state_update(void) {
 }
 
 /* Start or stop the schedule */
-void strummer_enable(bool on) {
+void strummer_enable(bool on, bool lp) {
     strumming_enabled = on;
+    loop = lp;
     ms_counter = 0;
     step_idx = 0;
     remaining_ms = pattern[0].length * MS_PER_SIXTEENTH;

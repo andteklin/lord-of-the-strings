@@ -2,8 +2,6 @@
     
 */
 #include "pwm.h"
-#include "board.h"
-#include "clock_config.h"
 #include "MKL46Z4.h"
 #include "strummer.h"
 // #include "strummer.h"
@@ -22,7 +20,8 @@
 
 int main(void){
     strummer_init();
-    strummer_enable(true);
+    Buttons_Init();
+    strummer_enable(true, true);
     while (1) {
         
     }

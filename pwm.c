@@ -22,7 +22,7 @@ uint16_t angle_to_cnV(uint8_t angle) {
 /*
     Setup the pins and timing.
 */
-void setup(void) {
+void setupPWM(void) {
     // Pin Setup
     SIM->SCGC5 |= SIM_SCGC5_PORTB_MASK;           // Enable Port B clock
     // For Servo 1 (Strummer)

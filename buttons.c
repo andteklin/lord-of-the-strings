@@ -33,6 +33,15 @@ void Buttons_Init(void) {
                                 | PORT_PCR_PE_MASK
                                 | PORT_PCR_PS_MASK
                                 | PORT_PCR_IRQC(0xA);
+    // Make PTA1 and PTA2 inputs
+    GPIOA->PDDR &= ~(1u << 1);  // PTA1 = input
+    GPIOA->PDDR &= ~(1u << 2);  // PTA2 = input
+
+    // Make PTC0 input
+    GPIOC->PDDR &= ~(1u << 0);  // PTC0 = input
+
+    // Make PTD3 input
+    GPIOD->PDDR &= ~(1u << 3);  // PTD3 = input
 
     // 5) enable NVIC for each port
     NVIC_ClearPendingIRQ(PORTA_IRQn);

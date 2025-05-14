@@ -21,11 +21,6 @@
 // }
 
 int main(void){
-    BOARD_InitBootClocks();
-    BOARD_BootClockRUN(); // Configure FLL for 48MHz
-    SystemCoreClockUpdate();
-    setup();
-    PIT_Init(10); // initialize PIT timer 10ms
     strummer_init();
     strummer_enable(true);
     while (1) {

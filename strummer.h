@@ -11,23 +11,36 @@
 void strummer_init(void);
 void strummer_update(void);
 void strummer_enable(bool on);
-void PIT_Init(uint32_t tick_ms);
+void PIT_Init();
 
-/* Four possible states.
+typedef enum {
+    DUR_16 = 1,    // one 16th
+    DUR_8  = 2,    // two 16ths
+    DUR_4  = 4     // four 16ths (quarter)
+} NoteDiv;
+
+/* Five possible states.
 */
 typedef enum {
     STRUM_DOWN,
     STRUM_UP,
     MUTE_ON,
-    MUTE_OFF
+    MUTE_OFF,
+    REST
 } StrumState;
 
 /* 
-Step struct for defining a schedule
+Step struct for defining a schedule based on timestamp
 */
 typedef struct {
     uint16_t time_ms;
     StrumState state;
 } Step;
+
+/* PatternStep struct for defining a schedule based on note length */
+typedef struct {
+    StrumState state;
+    NoteDiv    length;  // in units of 16th‑notes
+} PatternStep;
 
 #endif

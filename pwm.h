@@ -6,5 +6,6 @@
 uint16_t angle_to_cnV(uint8_t angle);
 void setup(void);
 void straight();
-void turnCW90(void);
+void turnCW90();
+void turnCCW90();
 #endif /* PWM_H_ */

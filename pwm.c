@@ -77,4 +77,6 @@ void straight() {
 void turnCW90() {
     TPM2->CONTROLS[0].CnV = angle_to_cnV(180);
 }
-void turnCCW90() {}
+void turnCCW90() {
+    TPM2->CONTROLS[0].CnV = angle_to_cnV(0);
+}

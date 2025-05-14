@@ -19,6 +19,33 @@ static const PatternStep funky[] = {
     { MUTE_ON,    DUR_4  },
 };
 
+// The Classic Guitar Strumming Pattern
+static const PatternStep classic[] = {
+    { STRUM_DOWN, DUR_4 },
+    { STRUM_UP,   DUR_8 },
+    { STRUM_DOWN, DUR_8 },
+    { REST,       DUR_8  },
+    { STRUM_UP,   DUR_8 },
+    { STRUM_DOWN, DUR_8 },
+    { STRUM_UP,   DUR_8 },
+};
+
+// /* :| _ ^ _ ^ _ ^ _ ^ _^ :| */
+// Step schedule[NUM_STEPS] = {
+//     {0, STRUM_UP},
+//     {20, STRUM_UP}
+//     // {160,  STRUM_UP},
+//     // {240, STRUM_DOWN},
+//     // {320,  STRUM_UP},
+//     // {400, STRUM_DOWN},
+//     // {480, STRUM_UP},
+//     // {560, STRUM_DOWN},
+//     // {640, STRUM_UP},
+//     // {680, STRUM_DOWN},
+//     // {720, STRUM_UP}
+// };
+
+#define PATTERN_LEN  (sizeof pattern / sizeof pattern[0])
 // Arrays of pointers & lengths
 static const PatternStep*  allPatterns[NUM_PATTERNS] = {
     basic,

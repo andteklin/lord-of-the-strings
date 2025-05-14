@@ -7,15 +7,22 @@
 #include "patterns.h"
 #include "MKL46Z4.h"
 
-#define TICK_MS 10
-volatile uint32_t ms_counter = 0;
-volatile uint32_t remaining_ms;
-volatile uint8_t step_idx = 0;
-volatile bool loop = 0; // by default no loop
+#define TICK_MS 10 // interrupt intervals for PIT
+// volatile uint32_t ms_counter = 0; // for the timestamp-based scheduler
+volatile uint32_t remaining_ms; // to track current time remaining
+volatile uint8_t step_idx = 0; // to track which step in pattern we are in
+volatile bool loop = 0; // by default no looping of pattern
 
+// Pattern definitions
+static const PatternStep* curPattern;
+static uint8_t curLen; // length of current pattern
+
+// current strumming state
 static StrumState strumState;
-// static uint32_t strumDeadline = 0;
-static volatile bool strumming_enabled = true;
+// current muting state
+static StrumState muteState;
+// enable strumming
+static volatile bool strumming_enabled = 0;
 
 // Tempo and base durations
 #define BPM                120                      // beats per minute
@@ -23,37 +30,10 @@ static volatile bool strumming_enabled = true;
 #define MS_PER_SIXTEENTH   (MS_PER_BEAT / 4)       // ms in a 16th‑note
 
 // Servo Angle definitions
-#define SU 0
-#define SD 180
-#define MU 0
-#define MD 0
-
-// /* :| _ ^ _ ^ _ ^ _ ^ _^ :| */
-// Step schedule[NUM_STEPS] = {
-//     {0, STRUM_UP},
-//     {20, STRUM_UP}
-//     // {160,  STRUM_UP},
-//     // {240, STRUM_DOWN},
-//     // {320,  STRUM_UP},
-//     // {400, STRUM_DOWN},
-//     // {480, STRUM_UP},
-//     // {560, STRUM_DOWN},
-//     // {640, STRUM_UP},
-//     // {680, STRUM_DOWN},
-//     // {720, STRUM_UP}
-// };
-
-// The Classic Guitar Strumming Pattern
-static const PatternStep pattern[] = {
-    { STRUM_DOWN, DUR_4 },
-    { STRUM_UP,   DUR_8 },
-    { STRUM_DOWN, DUR_8 },
-    { REST,       DUR_8  },
-    { STRUM_UP,   DUR_8 },
-    { STRUM_DOWN, DUR_8 },
-    { STRUM_UP,   DUR_8 },
-};
-#define PATTERN_LEN  (sizeof pattern / sizeof pattern[0])
+#define SU 0 // strumming up angle
+#define SD 180 // strumming down angle
+#define MU 0 // angle for mute bar up
+#define MD 0 // angle for mute bar down
 
 void strummer_init(void) {
     BOARD_InitBootClocks();
@@ -86,32 +66,35 @@ void state_update(void) {
     }
 }
 
-/* Start or stop the schedule */
-void strummer_enable(bool on, bool lp) {
-    strumming_enabled = on;
-    loop = lp;
-    ms_counter = 0;
+/* Start or stop the pattern/schedule */
+void strummer_enable(bool doLoop, PatternId pid) {
+    strumming_enabled = true;
+    loop = doLoop;
+    // ms_counter = 0;
+    // set current pattern pointer
+    curPattern = Patterns_Get(pid);
+    curLen = Patterns_Len(pid);
+
     step_idx = 0;
-    remaining_ms = pattern[0].length * MS_PER_SIXTEENTH;
-    if (on) {
-        // strumState = schedule[0].state;
-        strumState = pattern[0].state;
-        state_update();
-    }
+    remaining_ms = curPattern[0].length * MS_PER_SIXTEENTH;
+    // strumState = schedule[0].state;
+    strumState = curPattern[0].state;
+    state_update();
 }
 
 /* called by PIT Interrupt Service Routine */
 void strummer_update(void) {
     if (!strumming_enabled) return;
-    ms_counter += TICK_MS;
+    // ms_counter += TICK_MS;
     // For use with PatternStep
+    // If there is still time remaining greater than PIT interval, subtract PIT interval
     if (remaining_ms > TICK_MS) {
         remaining_ms -= TICK_MS;
         return;
     }
     // Advance to next step after remaining ms runs out
     step_idx++;
-    if (step_idx >= PATTERN_LEN) {
+    if (step_idx >= curLen) {
         if (loop) {
             step_idx = 0;
         }
@@ -122,10 +105,10 @@ void strummer_update(void) {
     }
 
     // load new step
-    remaining_ms = pattern[step_idx].length * MS_PER_SIXTEENTH;
-    strumState = pattern[step_idx].state;
+    remaining_ms = curPattern[step_idx].length * MS_PER_SIXTEENTH;
+    strumState = curPattern[step_idx].state;
     state_update();
-    // // For use with Step struct
+    // // For use with Step scheduler
     // if (step_idx < NUM_STEPS && ms_counter >= schedule[step_idx].time_ms) {
     //     state_update();
     //     step_idx++;

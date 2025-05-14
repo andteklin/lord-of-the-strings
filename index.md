@@ -33,6 +33,8 @@ We will use two clamps to mount a PLA-printed plate onto the upper neck of the g
 
 **Electrical Approach**\
 The electric components of the system include a 6v power supply, a switch, a buck converter, a capacitor, an SG90 servo, and the FRDM board. We will supply the system with 4x 1.5V AA batteries for a combined 6v. A switch will be connected from the output of the power supply to the rest of the circuit. We will then use a buck converter to step down the voltage from 6v to 5v. We will power the FRDM board directly from the 5v output and supply the servo power from the same 5v output through a decoupling capacitor. The FRDM board will output PWM signals to the servo, connected from a GPIO output pin on the FRDM to the signal input on the servo. 
+![image](https://github.coecis.cornell.edu/ece3140-sp2025/ahl92-am2736-nsv23/assets/16551/48b23880-f1ca-4bda-b34f-a36f5a59727d)
+
 
 **Software Approach**\
 We will create PWM signaling for servo control similar to the PWM signals we sent to the LEDs in lab 2. We will also implement concurrency by having one servo controlling the strumming arm while the other controls the muting mechanism simultaneously. Timer-based scheduling will be used to run the servos in precise, overlapping coordination. The onboard button will be used to toggle between different programmed styles.

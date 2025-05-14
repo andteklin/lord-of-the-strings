@@ -5,25 +5,31 @@
 #include "board.h"
 #include "clock_config.h"
 #include "MKL46Z4.h"
+#include "strummer.h"
+// #include "strummer.h"
+// #include "systick.h" // or wherever you implement millis
+
+// int main(void) {
+//     init_systick();     // Sets up global millis using SysTick
+//     strummer_init();    // Initializes strummer (servo at rest)
+//     strummer_enable(true); // Start strumming
+
+//     while (1) {
+//         strummer_update(); // non-blocking!
+//         // ... other tasks
+//     }
+// }
 
 int main(void){
     BOARD_InitBootClocks();
     BOARD_BootClockRUN(); // Configure FLL for 48MHz
     SystemCoreClockUpdate();
     setup();
-    // SIM->SCGC5 |= SIM_SCGC5_PORTB_MASK;          // Enable Port B clock
-    // PORTB->PCR[18] = (PORTB->PCR[18] & ~PORT_PCR_MUX_MASK)
-    //            | PORT_PCR_MUX(1);           // ALT1 = GPIO
-    // GPIOB->PDDR |= (1 << 18);                    // PTB18 = output
-    // turnCW90();
+    PIT_Init(10); // initialize PIT timer 10ms
+    strummer_init();
+    strummer_enable(true);
     while (1) {
-        // mute();
-        // straight();
-        // straight();
-        // turnCW90();
-        // straight();
-        // turnCW90();
-        // poll switch();
+        
     }
     return 0;
 }

@@ -7,6 +7,12 @@
 #include <stdint.h>
 #include <init.c>
 
+// // Constants for muting
+// #define STRUM_START angle_to_cnV(60)
+// #define STRUM_END   angle_to_cnV(120)
+// #define MUTE_ON     angle_to_cnV(150)
+// #define MUTE_OFF    angle_to_cnV(30)
+
 uint16_t angle_to_cnV(uint8_t angle) {
     const uint16_t minTicks = 753;   // 1 ms (0.02 * 15075)
     const uint16_t maxTicks = 1508;   // 2 ms (0.04 * 15075)

@@ -1,59 +1,73 @@
 /* buttons.c
 Implementations of four buttons pins
 */
-
 #include "buttons.h"
 #include "MKL46Z4.h"
 
-// ── Configure these to the pins you wired your buttons to ────────────────
-// Here we use PTA1, PTA2, PTA4, PTA5 as examples:
-static const uint32_t buttonPins[4] = {
-    1,  // button 0 → PTA1
-    2,  // button 1 → PTA2
-    4,  // button 2 → PTA4
-    5   // button 3 → PTA5
-};
-
-// simple debounce state
-static bool lastState[4];
-static bool pressedFlag[4];
+// — pin definitions by port —
+static const uint8_t portA_pins[] = { 1,  2 };  // tempo up/down
+static const uint8_t portC_pins[] = { 0     };  // mute
+static const uint8_t portD_pins[] = { 3     };  // style
 
 void Buttons_Init(void) {
-    // 1) Enable clock to PORTA
-    SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK;
-    // 2) Configure each pin as GPIO input with pull‑up
-    for (int i = 0; i < 4; i++) {
-        uint32_t pin = buttonPins[i];
-        PORTA->PCR[pin] = PORT_PCR_MUX(1)    // GPIO
-                        | PORT_PCR_PE_MASK  // pull enable
-                        | PORT_PCR_PS_MASK; // pull‑up
+    // 1) enable clocks for PORTA, PORTC, PORTD
+    SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK
+                |  SIM_SCGC5_PORTC_MASK
+                |  SIM_SCGC5_PORTD_MASK;
+
+    // 2) configure PTA1, PTA2 for falling‑edge IRQ, pull‑up
+    for (int i = 0; i < sizeof(portA_pins)/sizeof(portA_pins[0]); i++) {
+        uint8_t pin = portA_pins[i];
+        PORTA->PCR[pin] = PORT_PCR_MUX(1)      // GPIO
+                        | PORT_PCR_PE_MASK    // pull enabled
+                        | PORT_PCR_PS_MASK    // pull‑up
+                        | PORT_PCR_IRQC(0xA); // falling‑edge
     }
-    // 3) Clear any pending and enable PORTA IRQ in NVIC
+    // 3) configure PTC0
+    PORTC->PCR[ portC_pins[0] ] = PORT_PCR_MUX(1)
+                                | PORT_PCR_PE_MASK
+                                | PORT_PCR_PS_MASK
+                                | PORT_PCR_IRQC(0xA);
+    // 4) configure PTD3
+    PORTD->PCR[ portD_pins[0] ] = PORT_PCR_MUX(1)
+                                | PORT_PCR_PE_MASK
+                                | PORT_PCR_PS_MASK
+                                | PORT_PCR_IRQC(0xA);
+
+    // 5) enable NVIC for each port
     NVIC_ClearPendingIRQ(PORTA_IRQn);
-    NVIC_EnableIRQ(PORTA_IRQn);
+    NVIC_EnableIRQ    (PORTA_IRQn);
+
+    NVIC_ClearPendingIRQ(PORTC_PORTD_IRQn);
+    NVIC_EnableIRQ    (PORTC_PORTD_IRQn);
 }
 
 void PORTA_IRQHandler(void) {
-    for (int i = 0; i < NUM_BUTTONS; i++) {
-        uint8_t pin = buttonPins[i];
+    // PTA1 (BTN_TEMPO_UP), PTA2 (BTN_TEMPO_DOWN)
+    for (int i = 0; i < 2; i++) {
+        uint8_t pin = portA_pins[i];
         if (PORTA->PCR[pin] & PORT_PCR_ISF_MASK) {
             PORTA->PCR[pin] |= PORT_PCR_ISF_MASK;  // clear flag
-
-            // dispatch your action
-            switch (i) {
-              case BTN_TEMPO_UP:
-                // increase BPM, recalc timings
-                break;
-              case BTN_TEMPO_DOWN:
-                // decrease BPM
-                break;
-              case BTN_MUTE_TOGGLE:
-                // toggle mute in your strummer module
-                break;
-              case BTN_STYLE_CYCLE:
-                // advance to next strum pattern
-                break;
+            if (i == 0) {
+                // BTN_TEMPO_UP
+            } else {
+                // BTN_TEMPO_DOWN
             }
         }
+    }
+}
+
+void PORTC_PORTD_IRQHandler(void) {
+    // PTC0 (BTN_MUTE_TOGGLE)
+    uint8_t pinC = portC_pins[0];
+    if (PORTC->PCR[pinC] & PORT_PCR_ISF_MASK) {
+        PORTC->PCR[pinC] |= PORT_PCR_ISF_MASK;  // clear flag
+        // BTN_MUTE_TOGGLE
+    }
+    // PTD3 (BTN_STYLE_CYCLE)
+    uint8_t pinD = portD_pins[0];
+    if (PORTD->PCR[pinD] & PORT_PCR_ISF_MASK) {
+        PORTD->PCR[pinD] |= PORT_PCR_ISF_MASK;  // clear flag
+        // BTN_STYLE_CYCLE
     }
 }

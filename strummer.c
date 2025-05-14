@@ -47,11 +47,13 @@ static volatile bool strumming_enabled = true;
 
 // Example “down–up–down–up” on 16ths, then rest for an 8th:
 static const PatternStep pattern[] = {
-    { STRUM_DOWN, DUR_16 },
-    { STRUM_UP,   DUR_16 },
-    { STRUM_DOWN, DUR_16 },
-    { STRUM_UP,   DUR_16 },
+    { STRUM_DOWN, DUR_4 },
+    { STRUM_UP,   DUR_8 },
+    { STRUM_DOWN, DUR_8 },
     { REST,       DUR_8  },
+    { STRUM_UP,   DUR_8 },
+    { STRUM_DOWN, DUR_8 },
+    { STRUM_UP,   DUR_8 },
 };
 #define PATTERN_LEN  (sizeof pattern / sizeof pattern[0])
 

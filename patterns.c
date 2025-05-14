@@ -1,8 +1,13 @@
-/* patterns.c to implement strumming patterns */
+/* patterns.c to implement strumming patterns
+To add a new pattern,
+1. Define your static const ComboStep myNewPattern[] = { … };
+2. Add a single line to the end of the patterns[] initializer 
+    { .data = myNewPattern, .len = sizeof(myNewPattern)/sizeof(myNewPattern[0]) }
+*/
 #include "patterns.h"
 
 // —— Pattern 0: simple down–up–down–up, rest ——  
-static const PatternStep basic[] = {
+static const ComboStep basic[] = {
     { STRUM_DOWN, DUR_16 },
     { STRUM_UP,   DUR_16 },
     { STRUM_DOWN, DUR_16 },
@@ -11,7 +16,7 @@ static const PatternStep basic[] = {
 };
 
 // —— Pattern 1: a different groove ——  
-static const PatternStep funky[] = {
+static const ComboStep funky[] = {
     { STRUM_DOWN, DUR_8  },
     { REST,       DUR_16 },
     { STRUM_UP,   DUR_8  },
@@ -19,8 +24,8 @@ static const PatternStep funky[] = {
     { MUTE_ON,    DUR_4  },
 };
 
-// The Classic Guitar Strumming Pattern
-static const PatternStep classic[] = {
+// Pattern 2: The Classic Guitar Strumming Pattern
+static const ComboStep classic[] = {
     { STRUM_DOWN, DUR_4 },
     { STRUM_UP,   DUR_8 },
     { STRUM_DOWN, DUR_8 },
@@ -31,7 +36,7 @@ static const PatternStep classic[] = {
 };
 
 // /* :| _ ^ _ ^ _ ^ _ ^ _^ :| */
-// Step schedule[NUM_STEPS] = {
+// TimeStep schedule[NUM_STEPS] = {
 //     {0, STRUM_UP},
 //     {20, STRUM_UP}
 //     // {160,  STRUM_UP},
@@ -45,21 +50,19 @@ static const PatternStep classic[] = {
 //     // {720, STRUM_UP}
 // };
 
-#define PATTERN_LEN  (sizeof pattern / sizeof pattern[0])
-// Arrays of pointers & lengths
-static const PatternStep*  allPatterns[NUM_PATTERNS] = {
-    basic,
-    funky
-};
-static const uint8_t       allLengths[NUM_PATTERNS] = {
-    sizeof(basic) / sizeof(basic[0]),
-    sizeof(funky) / sizeof(funky[0])
+// Define pattern structs here
+const Pattern patterns[] = {
+    {basic,   sizeof(basic)   / sizeof(basic[0])   },
+    {funky,   sizeof(funky)   / sizeof(funky[0])   },
+    {classic, sizeof(classic) / sizeof(classic[0]) }
 };
 
-const PatternStep* Patterns_Get(PatternId id) {
-    return allPatterns[id];
+const uint8_t NUM_PATTERNS = sizeof(patterns) / sizeof(patterns[0]);
+
+const ComboStep* Patterns_GetData(uint8_t id) {
+    return patterns[id].data;
 }
 
-uint8_t Patterns_Len(PatternId id) {
-    return allLengths[id];
+uint8_t Patterns_GetLength(uint8_t id) {
+    return patterns[id].len;
 }

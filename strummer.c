@@ -7,25 +7,25 @@
 #include "patterns.h"
 #include "MKL46Z4.h"
 
-#define TICK_MS 10 // interrupt intervals for PIT
-// volatile uint32_t ms_counter = 0; // for the timestamp-based scheduler
-volatile uint32_t remaining_ms; // to track current time remaining
-volatile uint8_t step_idx = 0; // to track which step in pattern we are in
-volatile bool loop = 0; // by default no looping of pattern
-
 // Pattern definitions
-static const PatternStep* curPattern;
+volatile uint8_t curPID;
+static const ComboStep* curPattern;
 static uint8_t curLen; // length of current pattern
 
 // current strumming state
 static StrumState strumState;
 // current muting state
-static StrumState muteState;
-// enable strumming
-static volatile bool strumming_enabled = 0;
+static MuteState muteState;
+
+static uint32_t remaining_ms; // to track current time remaining
+static uint8_t step_idx = 0; // to track which step in pattern we are in
+
+static bool strumming_enabled = 0;
+static bool loop = 0; // by default no looping of pattern
 
 // Tempo and base durations
-#define BPM                120                      // beats per minute
+#define TICK_MS 10                                  // interrupt intervals for PIT
+volatile uint8_t BPM;                      // beats per minute
 #define MS_PER_BEAT        (60000 / BPM)           // ms in one quarter‑note
 #define MS_PER_SIXTEENTH   (MS_PER_BEAT / 4)       // ms in a 16th‑note
 
@@ -42,51 +42,57 @@ void strummer_init(void) {
     setupPWM();
     PIT_Init(); // initialize PIT timer 10ms
     // Assumes TPM2 and servo channel already configured
-    TPM2->CONTROLS[0].CnV = angle_to_cnV(90); // Neutral starting position
+    TPM2->CONTROLS[0].CnV = angle_to_cnV(SU); // Strummer up position
+    TPM2->CONTROLS[1].CnV = angle_to_cnV(MU); // Mute Up position
 }
 
-/* update the state of the servos */
-void state_update(void) {
-    switch (strumState) {
+/* update the state of the strumming servo */
+void strum_update(StrumState s) {
+    switch (s) {
         case STRUM_DOWN:
             TPM2->CONTROLS[0].CnV = angle_to_cnV(SD);
             break;
         case STRUM_UP:
             TPM2->CONTROLS[0].CnV = angle_to_cnV(SU);
             break;
-        
+        case REST:
+            break;
+    }
+}
+
+void mute_update(MuteState m) {
+    switch (m) {       
         case MUTE_ON:
             TPM2->CONTROLS[1].CnV = angle_to_cnV(MD);
             break;
         case MUTE_OFF:
             TPM2->CONTROLS[1].CnV = angle_to_cnV(MU);
             break;
-        case REST:
+        case MUTE_NOCHANGE:
             break;
     }
 }
 
 /* Start or stop the pattern/schedule */
-void strummer_enable(bool doLoop, PatternId pid) {
+void strummer_enable(bool doLoop) {
     strumming_enabled = true;
     loop = doLoop;
-    // ms_counter = 0;
     // set current pattern pointer
-    curPattern = Patterns_Get(pid);
-    curLen = Patterns_Len(pid);
+    curPattern = Patterns_GetData(curPID);
+    curLen = Patterns_GetLength(curPID);
 
     step_idx = 0;
     remaining_ms = curPattern[0].length * MS_PER_SIXTEENTH;
-    // strumState = schedule[0].state;
-    strumState = curPattern[0].state;
-    state_update();
+    strumState = curPattern[0].strum;
+    muteState = curPattern[0].mute;
+    strum_update(strumState);
+    mute_update(muteState);
 }
 
 /* called by PIT Interrupt Service Routine */
 void strummer_update(void) {
     if (!strumming_enabled) return;
-    // ms_counter += TICK_MS;
-    // For use with PatternStep
+    // For use with StrumStep
     // If there is still time remaining greater than PIT interval, subtract PIT interval
     if (remaining_ms > TICK_MS) {
         remaining_ms -= TICK_MS;
@@ -105,23 +111,12 @@ void strummer_update(void) {
     }
 
     // load new step
-    remaining_ms = curPattern[step_idx].length * MS_PER_SIXTEENTH;
-    strumState = curPattern[step_idx].state;
-    state_update();
-    // // For use with Step scheduler
-    // if (step_idx < NUM_STEPS && ms_counter >= schedule[step_idx].time_ms) {
-    //     state_update();
-    //     step_idx++;
-    //     if ((step_idx >= NUM_STEPS)) {
-    //         step_idx = 0;
-    //         ms_counter = 0;
-    //         strumState = schedule[step_idx].state;
-    //         // strumming_enfabled = false;
-    //     }
-    //     else {
-    //         strumState = schedule[step_idx].state;
-    //     }
-    // }
+    ComboStep const *s = &curPattern[step_idx];
+    remaining_ms = s->length * MS_PER_SIXTEENTH;
+    strumState = s->strum;
+    muteState = s->mute;
+    strum_update(strumState);
+    mute_update(muteState);
 }
 
 /* Initialize PIT timer */

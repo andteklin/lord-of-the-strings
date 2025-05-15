@@ -35,6 +35,18 @@ static const ComboStep classic[] = {
     { STRUM_UP,   DUR_8 },
 };
 
+// Pattern 3: a fun muted rhythm
+static const ComboStep fun[] = {
+    { STRUM_DOWN, DUR_D8, MUTE_ON },
+    { STRUM_UP,   DUR_D8 },
+    { STRUM_DOWN, DUR_D8 },
+    { STRUM_UP,   DUR_D8 },
+    { STRUM_DOWN, DUR_16 },
+    { STRUM_UP,   DUR_16 },
+    { STRUM_DOWN, DUR_16 },
+    { STRUM_UP,   DUR_16 },
+};
+
 // /* :| _ ^ _ ^ _ ^ _ ^ _^ :| */
 // TimeStep schedule[NUM_STEPS] = {
 //     {0, STRUM_UP},

@@ -29,4 +29,4 @@ I wish we had more accurately measured where the servo mounts needed to go befor
 We organized tasks into mechanical design, electrical setup, and coding. Andrew primarily worked on coding and debuggin the FRDM board to control the servo PWM pulses and button control. Adin worked on the mechanical design for the string muting system and helped with code debugging and servo signal pulsing. Nathan designed the servo-controlled strumming arm, servo mount, and mounting plate that clamps onto the guitar. He also coded the strumming patterns and cleaned up the code.
 
 #### Outside Resources 
-If you are using a code base from outside of class, or found a particular resource helpful, please put it here. Describe any use of generative AI tools here as well.
+We took some inspiration in mounting the plate to the guitar as well as for the strumming motion from this resource we found online: https://www.instructables.com/AutoStrummer/

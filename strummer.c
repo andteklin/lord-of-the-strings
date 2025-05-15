@@ -29,8 +29,8 @@ volatile uint16_t BPM;                      // beats per minute
 static uint32_t ms_per_sixteenth;
 
 // Servo Angle definitions
-#define SU 0 // strumming up angle
-#define SD 180 // strumming down angle
+#define SU 45 // strumming up angle
+#define SD 160 // strumming down angle
 #define MU 29 // angle for mute bar up
 #define MD 140 // angle for mute bar down
 

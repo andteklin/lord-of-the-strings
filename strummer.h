@@ -49,10 +49,16 @@ typedef struct{
 } ComboStep;
 
 void strummer_init(void);
+void strummer_setBPM(uint16_t bpm);
 void strummer_update(void);
 void strummer_enable(bool loop);
 void strum_update(StrumState s);
 void mute_update(MuteState m);
 void PIT_Init();
+/**  
+ * Select which pattern (0..NUM_PATTERNS‑1) to play on the next enable.  
+ * Does nothing if pid >= NUM_PATTERNS.  
+ */
+void strummer_selectPattern(uint8_t pid);
 
 #endif

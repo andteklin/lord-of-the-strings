@@ -13,9 +13,9 @@ static const ComboStep* curPattern;
 static uint8_t curLen; // length of current pattern
 
 // current strumming state
-static StrumState strumState;
+volatile StrumState strumState;
 // current muting state
-static MuteState muteState;
+volatile MuteState muteState;
 
 static uint32_t remaining_ms; // to track current time remaining
 static uint8_t step_idx = 0; // to track which step in pattern we are in
@@ -25,15 +25,14 @@ static bool loop = 0; // by default no looping of pattern
 
 // Tempo and base durations
 #define TICK_MS 10                                  // interrupt intervals for PIT
-volatile uint8_t BPM;                      // beats per minute
-#define MS_PER_BEAT        (60000 / BPM)           // ms in one quarter‑note
-#define MS_PER_SIXTEENTH   (MS_PER_BEAT / 4)       // ms in a 16th‑note
+volatile uint16_t BPM;                      // beats per minute
+static uint32_t ms_per_sixteenth;
 
 // Servo Angle definitions
 #define SU 0 // strumming up angle
 #define SD 180 // strumming down angle
 #define MU 0 // angle for mute bar up
-#define MD 0 // angle for mute bar down
+#define MD 180 // angle for mute bar down
 
 void strummer_init(void) {
     BOARD_InitBootClocks();
@@ -44,6 +43,20 @@ void strummer_init(void) {
     // Assumes TPM2 and servo channel already configured
     TPM2->CONTROLS[0].CnV = angle_to_cnV(SU); // Strummer up position
     TPM2->CONTROLS[1].CnV = angle_to_cnV(MU); // Mute Up position
+}
+
+/* Set the bpm of the strummer */
+void strummer_setBPM(uint16_t bpm) {
+    BPM = bpm;
+    // 60000ms per minute, divided by bpm → ms per quarter note,
+    // then /4 → ms per sixteenth.
+    ms_per_sixteenth = (60000u / BPM) / 4;
+}
+
+void strummer_selectPattern(uint8_t pid) {
+    if (pid < NUM_PATTERNS) {
+        curPID = pid;
+    }
 }
 
 /* update the state of the strumming servo */
@@ -82,7 +95,7 @@ void strummer_enable(bool doLoop) {
     curLen = Patterns_GetLength(curPID);
 
     step_idx = 0;
-    remaining_ms = curPattern[0].length * MS_PER_SIXTEENTH;
+    remaining_ms = curPattern[0].length * ms_per_sixteenth;
     strumState = curPattern[0].strum;
     muteState = curPattern[0].mute;
     strum_update(strumState);
@@ -112,7 +125,7 @@ void strummer_update(void) {
 
     // load new step
     ComboStep const *s = &curPattern[step_idx];
-    remaining_ms = s->length * MS_PER_SIXTEENTH;
+    remaining_ms = s->length * ms_per_sixteenth;
     strumState = s->strum;
     muteState = s->mute;
     strum_update(strumState);
@@ -123,7 +136,7 @@ void strummer_update(void) {
 void PIT_Init() {
     SIM->SCGC6 |= SIM_SCGC6_PIT_MASK; // Enable clock to PIT module
     PIT->MCR = 0; //Make sure the peripheral is enabled, should be on by default. 
-    PIT->CHANNEL[0].LDVAL = (SystemCoreClock/1000 * TICK_MS) - 1; // Set timer period, about 1/10 sec
+    PIT->CHANNEL[0].LDVAL = ((SystemCoreClock/2)/1000 * TICK_MS) - 1; // Set timer period, about 1/10 sec
     PIT->CHANNEL[0].TFLG = 1; // clear previous interrupts
     PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TEN_MASK | PIT_TCTRL_TIE_MASK; // enable countdown (Timer Interrupt Enable, Timer enable)
     NVIC_EnableIRQ(PIT_IRQn); // writes to ISER and ICER registers

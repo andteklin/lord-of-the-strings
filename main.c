@@ -5,20 +5,12 @@
 #include "MKL46Z4.h"
 #include "strummer.h"
 
-extern uint8_t curPID;
-extern uint8_t BPM;
-// void switchPattern(uint8_t id) {
-//     if (id < NUM_PATTERNS) {
-//         curPattern = patterns[id];
-//         curLen     = patternLens[id];
-//         strummer_enable(true, /*loop=*/true);
-//     }
-// }
 int main(void){
+    SystemCoreClockUpdate();
     strummer_init();
-    // Buttons_Init();
-    curPID = 2;
-    BPM=240;
+    Buttons_Init();
+    strummer_selectPattern(2); // classic pattern
+    strummer_setBPM(120);
     strummer_enable(true);
     while (1) {
         

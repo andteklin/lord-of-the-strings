@@ -29,7 +29,7 @@ static const ComboStep classic[] = {
     { STRUM_DOWN, DUR_4 },
     { STRUM_UP,   DUR_8 },
     { STRUM_DOWN, DUR_8 },
-    { REST,       DUR_8  },
+    { REST,       DUR_8 },
     { STRUM_UP,   DUR_8 },
     { STRUM_DOWN, DUR_8 },
     { STRUM_UP,   DUR_8 },

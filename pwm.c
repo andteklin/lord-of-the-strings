@@ -25,12 +25,16 @@ uint16_t angle_to_cnV(uint8_t angle) {
 void setupPWM(void) {
     // Pin Setup
     SIM->SCGC5 |= SIM_SCGC5_PORTB_MASK;           // Enable Port B clock
+    SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK;           // Enable Port A clock
+
     // For Servo 1 (Strummer)
     PORTB->PCR[18] &= ~PORT_PCR_MUX_MASK; // clear mux bits
     PORTB->PCR[18] |= PORT_PCR_MUX(3);            // ALT3 = TPM2_CH0
     // For Servo 2 (Muter)
     PORTB->PCR[19] &= ~PORT_PCR_MUX_MASK; // clear mux bits
     PORTB->PCR[19] |= PORT_PCR_MUX(3); // for TPM2_CH1
+    PORTA->PCR[2] &= ~PORT_PCR_MUX_MASK; // clear mux bits
+    PORTA->PCR[2] |= PORT_PCR_MUX(3); // for TPM2_CH1
     
     // Timing Setup
     SIM->SCGC6 |= SIM_SCGC6_TPM2_MASK; // Enable clock for TPM2

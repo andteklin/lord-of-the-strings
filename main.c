@@ -4,6 +4,7 @@
 #include "pwm.h"
 #include "MKL46Z4.h"
 #include "strummer.h"
+#include "buttons.h"
 
 int main(void){
     SystemCoreClockUpdate();

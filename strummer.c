@@ -13,9 +13,9 @@ static const ComboStep* curPattern;
 static uint8_t curLen; // length of current pattern
 
 // current strumming state
-volatile StrumState strumState;
+static volatile StrumState strumState;
 // current muting state
-volatile MuteState muteState;
+static volatile MuteState muteState;
 
 static uint32_t remaining_ms; // to track current time remaining
 static uint8_t step_idx = 0; // to track which step in pattern we are in
@@ -31,8 +31,8 @@ static uint32_t ms_per_sixteenth;
 // Servo Angle definitions
 #define SU 0 // strumming up angle
 #define SD 180 // strumming down angle
-#define MU 0 // angle for mute bar up
-#define MD 180 // angle for mute bar down
+#define MU 54 // angle for mute bar up
+#define MD 158 // angle for mute bar down
 
 void strummer_init(void) {
     BOARD_InitBootClocks();
@@ -86,8 +86,23 @@ void mute_update(MuteState m) {
     }
 }
 
+/* toggle muting */
+void strummer_toggleMute(void) {
+    // flip the logical state
+    if (muteState == MUTE_ON) {
+        muteState = MUTE_OFF;
+    } else {
+        muteState = MUTE_ON;
+    }
+    // apply it to the hardware
+    mute_update(muteState);
+}
+
 /* Start or stop the pattern/schedule */
 void strummer_enable(bool doLoop) {
+    // 1) Disable the PIT tick while we re‑init state
+    PIT->CHANNEL[0].TCTRL &= ~(PIT_TCTRL_TEN_MASK | PIT_TCTRL_TIE_MASK);
+
     strumming_enabled = true;
     loop = doLoop;
     // set current pattern pointer
@@ -100,6 +115,11 @@ void strummer_enable(bool doLoop) {
     muteState = curPattern[0].mute;
     strum_update(strumState);
     mute_update(muteState);
+    // 6) Clear any pending PIT flag
+    PIT->CHANNEL[0].TFLG = PIT_TFLG_TIF_MASK;
+
+    // 7) Re‑enable the PIT interrupt and timer
+    PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TIE_MASK | PIT_TCTRL_TEN_MASK;
 }
 
 /* called by PIT Interrupt Service Routine */
@@ -130,6 +150,18 @@ void strummer_update(void) {
     muteState = s->mute;
     strum_update(strumState);
     mute_update(muteState);
+}
+
+void strummer_stop(void) {
+    strumming_enabled = false;
+    PIT->CHANNEL[0].TCTRL &= ~(PIT_TCTRL_TEN_MASK | PIT_TCTRL_TIE_MASK);
+
+    remaining_ms = 0;
+    loop = false;
+    strum_update(REST);
+    mute_update(MUTE_OFF);
+    TPM2->CONTROLS[0].CnV = angle_to_cnV(SU); // Strummer up position
+    TPM2->CONTROLS[1].CnV = angle_to_cnV(MU); // Mute Up position
 }
 
 /* Initialize PIT timer */

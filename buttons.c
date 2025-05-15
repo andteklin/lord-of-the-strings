@@ -73,12 +73,7 @@ void PORTC_PORTD_IRQHandler(void) {
     uint8_t pinC = portC_pins[0];
     if (PORTC->PCR[pinC] & PORT_PCR_ISF_MASK) {
         PORTC->PCR[pinC] |= PORT_PCR_ISF_MASK;  // clear flag
-        if (muteState == MUTE_ON) {
-            mute_update(MUTE_OFF);
-        }
-        else {
-            mute_update(MUTE_ON);
-        }
+        strummer_toggleMute();
     }
     // PTD3 (BTN_STYLE_CYCLE)
     uint8_t pinD = portD_pins[0];

@@ -12,6 +12,7 @@
 typedef enum {
     DUR_16 = 1,    // one 16th
     DUR_8  = 2,    // two 16ths
+    DUR_D8 = 3,    // three 16ths
     DUR_4  = 4     // four 16ths (quarter)
 } NoteDiv;
 
@@ -54,6 +55,8 @@ void strummer_update(void);
 void strummer_enable(bool loop);
 void strum_update(StrumState s);
 void mute_update(MuteState m);
+void strummer_toggleMute(void);
+void strummer_stop(void);
 void PIT_Init();
 /**  
  * Select which pattern (0..NUM_PATTERNS‑1) to play on the next enable.  

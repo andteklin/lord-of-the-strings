@@ -62,9 +62,9 @@ void PORTA_IRQHandler(void) {
         if (PORTA->PCR[pin] & PORT_PCR_ISF_MASK) {
             PORTA->PCR[pin] |= PORT_PCR_ISF_MASK;  // clear flag
             if (i == 0) {
-                // BTN_TEMPO_UP
+                // BPM += 10;
             } else {
-                // BTN_TEMPO_DOWN
+                // BPM -= 10;
             }
         }
     }
@@ -83,9 +83,9 @@ void PORTC_PORTD_IRQHandler(void) {
         PORTD->PCR[pinD] |= PORT_PCR_ISF_MASK;  // clear flag
         // advance & wrap your pattern index
         uint8_t next = (curPID + 1) % NUM_PATTERNS;
-        strummer_selectPattern(next);
+        strummer_selectPattern(next, true);
 
         // restart the sequence with the new pattern
-        strummer_enable(true);
+        strummer_enable();
     }
 }

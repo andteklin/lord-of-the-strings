@@ -31,8 +31,8 @@ static uint32_t ms_per_sixteenth;
 // Servo Angle definitions
 #define SU 0 // strumming up angle
 #define SD 180 // strumming down angle
-#define MU 54 // angle for mute bar up
-#define MD 158 // angle for mute bar down
+#define MU 29 // angle for mute bar up
+#define MD 140 // angle for mute bar down
 
 void strummer_init(void) {
     BOARD_InitBootClocks();
@@ -53,10 +53,38 @@ void strummer_setBPM(uint16_t bpm) {
     ms_per_sixteenth = (60000u / BPM) / 4;
 }
 
-void strummer_selectPattern(uint8_t pid) {
-    if (pid < NUM_PATTERNS) {
-        curPID = pid;
-    }
+/* Select pattern */
+void strummer_selectPattern(uint8_t pid, bool doLoop) {
+  if (pid >= NUM_PATTERNS) return;    // out of range guard
+
+    // 1) stop current schedule & PIT interrupts
+    PIT->CHANNEL[0].TCTRL &= ~(PIT_TCTRL_TEN_MASK | PIT_TCTRL_TIE_MASK);
+    strumming_enabled = false;
+
+    // 2) update the global PID and grab the new pattern
+    curPID      = pid;
+    curPattern  = Patterns_GetData(curPID);
+    curLen      = Patterns_GetLength(curPID);
+
+    // 3) reset step index and countdown
+    step_idx     = 0;
+    remaining_ms = curPattern[0].length * ms_per_sixteenth;
+    strumState   = curPattern[0].strum;
+    muteState    = curPattern[0].mute;
+
+    // 4) apply the very first step immediately
+    strum_update(strumState);
+    mute_update(muteState);
+
+    // 5) store whether we should loop
+    loop = doLoop;
+
+    // 6) clear any pending PIT flag, then re‑enable PIT
+    PIT->CHANNEL[0].TFLG  = PIT_TFLG_TIF_MASK;
+    PIT->CHANNEL[0].TCTRL = PIT_TCTRL_TIE_MASK | PIT_TCTRL_TEN_MASK;
+
+    // 7) finally turn on scheduling
+    strumming_enabled = true;
 }
 
 /* update the state of the strumming servo */
@@ -99,12 +127,11 @@ void strummer_toggleMute(void) {
 }
 
 /* Start or stop the pattern/schedule */
-void strummer_enable(bool doLoop) {
+void strummer_enable() {
     // 1) Disable the PIT tick while we re‑init state
     PIT->CHANNEL[0].TCTRL &= ~(PIT_TCTRL_TEN_MASK | PIT_TCTRL_TIE_MASK);
 
     strumming_enabled = true;
-    loop = doLoop;
     // set current pattern pointer
     curPattern = Patterns_GetData(curPID);
     curLen = Patterns_GetLength(curPID);

@@ -66,7 +66,8 @@ static const ComboStep fun[] = {
 const Pattern patterns[] = {
     {basic,   sizeof(basic)   / sizeof(basic[0])   },
     {funky,   sizeof(funky)   / sizeof(funky[0])   },
-    {classic, sizeof(classic) / sizeof(classic[0]) }
+    {classic, sizeof(classic) / sizeof(classic[0]) },
+    {fun, sizeof(fun) / sizeof(fun[0]) }
 };
 
 const uint8_t NUM_PATTERNS = sizeof(patterns) / sizeof(patterns[0]);

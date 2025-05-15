@@ -10,9 +10,9 @@ int main(void){
     SystemCoreClockUpdate();
     strummer_init();
     Buttons_Init();
-    strummer_selectPattern(2); // classic pattern
+    strummer_selectPattern(2, true); // classic pattern
     strummer_setBPM(120);
-    strummer_enable(true);
+    strummer_enable();
     while (1) {
         
     }

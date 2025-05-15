@@ -35,3 +35,4 @@ We organized tasks into mechanical design, electrical setup, and coding. Andrew 
 
 #### Outside Resources 
 We took some inspiration in mounting the plate to the guitar as well as for the strumming motion from this resource we found online: https://www.instructables.com/AutoStrummer/
+In addition, we used ChatGPT and GitHub Copilot to help write and debug some of the code. It was able to give a good high-level implementation but lacked understanding of certain modules like the TPM and clock constraints. Thus, we still put in significant effort to debug and get the servos working. 

@@ -1,8 +1,11 @@
 # Lord of the Strings
 
 #### Overview
-The Lord of the Strings is more than just a simple guitar strummer. This robot attempts to implement palm muting, a technique for a more advanced guitarist. We wish to program the board to control the speed and strumming style. Much of the software will involve testing and debugging the sensor-to-arm control scheme and fine-tuning the movement of the strumming arm. We plan to add on a felt muting bar near the bridge to imitate the guitar palm muting technique.
-YouTube Video to be embedded later. 
+The Lord of the Strings is more than just a simple guitar strummer. This robot implements palm muting, a technique for a more advanced guitarist. Our initial ambition was to program the board to control the speed and strumming style. To this point, the buttons control style and the muting mechanism. We implemented timing mechanisms like TPM to control the movement of the servo as well as the PIT timer to control scheduling for strumming and muting patterns.
+
+#### Video
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+
 ![Sketch](images/sketch.jpg)
 
 #### System Diagram
@@ -13,9 +16,7 @@ YouTube Video to be embedded later.
 We will use two clamps to mount a PLA-printed plate onto the upper neck of the guitar. This plate will hold two servos: one for strumming and one for muting. The strumming servo will have a PLA-printed arm with a mounted pick to perform the strumming motion. The muting servo will have a PLA-printed arm with felt attached to the end to mute the strings. Both arms will extend over all six strings to provide strumming and muting capabilities. The plate, servo mounts, and arms will be CAD-designed by the team, while the clamps will be purchased.
 
 **Electrical Approach**\
-The electric components of the system include a 6v power supply, a switch, a buck converter, a capacitor, an SG90 servo, and the FRDM board. We will supply the system with 4x 1.5V AA batteries for a combined 6v. A switch will be connected from the output of the power supply to the rest of the circuit. We will then use a buck converter to step down the voltage from 6v to 5v. We will power the FRDM board directly from the 5v output and supply the servo power from the same 5v output through a decoupling capacitor. The FRDM board will output PWM signals to the servo, connected from a GPIO output pin on the FRDM to the signal input on the servo. 
-![image](https://github.coecis.cornell.edu/ece3140-sp2025/ahl92-am2736-nsv23/assets/16551/48b23880-f1ca-4bda-b34f-a36f5a59727d)
-
+The electric components of the system include a 5V power supply, two SG90 hobby servos, buttons, and the FRDM board. A switch will be connected from the output of the power supply to the rest of the circuit. The FRDM board will output PWM signals to the two servos sequentially, connected from a GPIO output pin on the FRDM to the signal input on the servo. 
 
 **Software Approach**\
 We will create PWM signaling for servo control similar to the PWM signals we sent to the LEDs in lab 2. We will also implement concurrency by having one servo controlling the strumming arm while the other controls the muting mechanism simultaneously. Timer-based scheduling will be used to run the servos in precise, overlapping coordination. The onboard button will be used to toggle between different programmed styles.
@@ -24,6 +25,10 @@ We will create PWM signaling for servo control similar to the PWM signals we sen
 **Mechanical Aspect**\
 One of the main challenges we faced in this project was refining the design of the strumming arm. It took several iterations to resolve issues related to mechanical noise, instability, and ensuring the arm had the proper range of motion without interfering with the muting components. We also encountered clearance issues with the pick, as it initially couldn't reach the strings—this required careful adjustments to address positioning and reach. Assembling the servo mounts onto the main mounting plate was also a challenge; it took a while to finalize optimal locations for functionality and support. 
 I wish we had more accurately measured where the servo mounts needed to go beforehand, as the mounting plate took a long time to print—making redesigns and reprints time-consuming.  Also, the guitar neck is not exactly flat, but rounded.  This was highlighted when our muting mechanism only really muted the top three strings and less on the bottom strings because they are positioned vertically lower due to the guitar’s design. Additionally, we had to CAD a custom servo mount to ensure the servo stood upright rather than laterally for proper strumming motion. One thing I really wish we had known before starting was the bioacoustic effect of the servo and pick—the vibrations produced a surprisingly loud mechanical noise. Unlike strumming by hand, where your fingers absorb a lot of that vibration and you mainly hear the strings, the strumming arm amplified both the string and mechanical sounds. Understanding that earlier would have informed our material and design choices for quieter operation. These experiences highlighted the importance of planning for mechanical tolerances, acoustic behavior, and clearance early in the design process.
+
+**Electrical/Software Aspect**\
+The most time-consuming aspect was implementing PWM in C. We were dealing with issues early on with getting the correct clock period and PWM cycle of 50Hz. We ended up going into the MCUXpresso clock settings and changing the core clock to 48MHz from the original 20.97MHz. This allowed us to set the correct calulations for servo motion using the TPM (Timer PWM Module). We then tweaked the values of the TPM period in order to achieve near-perfect 50Hz frequency for PWM.
+![image](images/48MHz%20working!.PNG)
 
 #### Team Work 
 We organized tasks into mechanical design, electrical setup, and coding. Andrew primarily worked on coding and debuggin the FRDM board to control the servo PWM pulses and button control. Adin worked on the mechanical design for the string muting system and helped with code debugging and servo signal pulsing. Nathan designed the servo-controlled strumming arm, servo mount, and mounting plate that clamps onto the guitar. He also coded the strumming patterns and cleaned up the code.

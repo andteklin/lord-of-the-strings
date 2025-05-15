@@ -3,6 +3,7 @@ Implementations of four buttons pins
 */
 #include "buttons.h"
 #include "strummer.h"
+#include "patterns.h"
 #include "MKL46Z4.h"
 
 // — pin definitions by port —
@@ -10,6 +11,7 @@ static const uint8_t portA_pins[] = { 1,  2 };  // tempo up/down
 static const uint8_t portC_pins[] = { 0     };  // mute
 static const uint8_t portD_pins[] = { 3     };  // style
 extern volatile MuteState muteState;
+extern volatile uint8_t curPID;
 
 void Buttons_Init(void) {
     // 1) enable clocks for PORTA, PORTC, PORTD
@@ -79,6 +81,11 @@ void PORTC_PORTD_IRQHandler(void) {
     uint8_t pinD = portD_pins[0];
     if (PORTD->PCR[pinD] & PORT_PCR_ISF_MASK) {
         PORTD->PCR[pinD] |= PORT_PCR_ISF_MASK;  // clear flag
-        // BTN_STYLE_CYCLE
+        // advance & wrap your pattern index
+        uint8_t next = (curPID + 1) % NUM_PATTERNS;
+        strummer_selectPattern(next);
+
+        // restart the sequence with the new pattern
+        strummer_enable(true);
     }
 }

@@ -1,8 +1,6 @@
 ## Pages
 
-- [Overview](/)
-- [Technical Approach](/technical)
-- [Testing & Debugging](/testing)
+[Overview](/) | [Technical Approach](/technical) | [Testing & Debugging](/testing)
 - [Teamwork](/team)
 - [Media/Demo](/media)
 - [Future Improvements](/improv)

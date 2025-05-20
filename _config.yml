@@ -1,3 +1,20 @@
-remote_theme: pages-themes/minimal
+title: Lord of the Strings
+remote_theme: pages-themes/slate
+markdown: kramdown
+navigation:
+  - title: Overview
+    url: /
+  - title: Technical Approach
+    url: /technical
+  - title: Testing/Debugging Approach
+    url: /testing
+  - title: Teamwork
+    url: /team
+  - title: Media/Demo
+    url: /media
+  - title: Future Improvements
+    url: /improv
+  - title: Outside Resources
+    url: /resources
 plugins:
 - jekyll-remote-theme # add this line to you plugin list if you are using a different setup

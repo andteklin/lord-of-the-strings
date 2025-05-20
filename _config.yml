@@ -3,6 +3,8 @@ description: A guitar robot that can strum and palm mute
 remote_theme: just-the-docs/just-the-docs
 markdown: kramdown
 baseurl: "/ece3140-sp2025/ahl92-am2736-nsv23"
+plugins:
+- jekyll-remote-theme # add this line to you plugin list if you are using a different setup
 nav:
   - title: Overview
     url: /
@@ -18,5 +20,3 @@ nav:
     url: /improv
   - title: Outside Resources
     url: /resources
-plugins:
-- jekyll-remote-theme # add this line to you plugin list if you are using a different setup

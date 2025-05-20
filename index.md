@@ -1,3 +1,9 @@
+---
+layout: default
+title: Overview
+nav_order: 1
+---
+# Lord of the Strings
 ## Overview
 The Lord of the Strings is more than just a simple guitar strummer. This robot implements palm muting, a technique for a more advanced guitarist. Our initial ambition was to program the board to control the speed and strumming style. To this point, the buttons control style and the muting mechanism. We implemented timing mechanisms like TPM to control the movement of the servo as well as the PIT timer to control scheduling for strumming and muting patterns.
 

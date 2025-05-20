@@ -8,15 +8,15 @@ plugins:
 nav:
   - title: Overview
     url: /
+  - title: Media/Demo
+    url: /media
   - title: Technical Approach
     url: /technical
   - title: Testing/Debugging Approach
     url: /testing
-  - title: Teamwork
-    url: /team
-  - title: Media/Demo
-    url: /media
   - title: Future Improvements
     url: /improv
+  - title: Teamwork
+    url: /team
   - title: Outside Resources
     url: /resources

@@ -1,3 +1,8 @@
+---
+layout: default
+title: Technical Approach
+nav_order: 3
+---
 ## Technical Approach
 ### Mechanical Approach
 This servo-controlled guitar robot integrates both strumming motion and palm muting through a compact mechanical system consisting of three main components. First, the **mounting structure** consists of a PLA-printed plate secured near the bridge of the guitar using two adjustable clamps. This plate serves as the base for securing two hobby servos: one for **strumming** and one for **muting**. 

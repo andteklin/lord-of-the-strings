@@ -1,3 +1,8 @@
+---
+layout: default
+title: Testing/Debugging Approach
+nav_order: 4
+---
 ## Testing and Debugging
 ### Mechanical Aspect
 One of the main challenges we faced in this project was refining the design of the strumming arm. It took several iterations to resolve issues related to mechanical noise, instability, and ensuring the arm had the proper range of motion without interfering with the muting components. We also encountered clearance issues with the pick, as it initially couldn't reach the strings—this required careful adjustments to address positioning and reach. Assembling the servo mounts onto the main mounting plate was also a challenge; it took a while to finalize optimal locations for functionality and support. 

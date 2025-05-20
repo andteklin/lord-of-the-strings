@@ -1,3 +1,8 @@
+---
+layout: default
+title: Outside Resources
+nav_order: 7
+---
 ## Outside Resources 
 We took some inspiration in mounting the plate to the guitar as well as for the strumming motion from this resource we found online: https://www.instructables.com/AutoStrummer/
 Understanding how buttons work: https://www.circuitbasics.com/how-to-connect-and-program-push-buttons-on-the-arduino/

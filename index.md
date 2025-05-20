@@ -4,11 +4,11 @@ title: Overview
 ---
 
 ## Pages
-[Overview](/) | [Technical Approach](/technical) | [Testing & Debugging](/testing)
-- [Teamwork](/team)
-- [Media/Demo](/media)
-- [Future Improvements](/improv)
-- [Outside Resources](/resources)
+[Overview]({{ site.baseurl }}/) | [Technical Approach]({{ site.baseurl }}/technical) | [Testing & Debugging]({{ site.baseurl }}/testing)
+- [Teamwork]({{ site.baseurl }}/team)
+- [Media/Demo]({{ site.baseurl }}/media)
+- [Future Improvements]({{ site.baseurl }}/improv)
+- [Outside Resources]({{ site.baseurl }}/resources)
 
 ## Overview
 The Lord of the Strings is more than just a simple guitar strummer. This robot implements palm muting, a technique for a more advanced guitarist. Our initial ambition was to program the board to control the speed and strumming style. To this point, the buttons control style and the muting mechanism. We implemented timing mechanisms like TPM to control the movement of the servo as well as the PIT timer to control scheduling for strumming and muting patterns.

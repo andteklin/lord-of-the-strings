@@ -2,6 +2,7 @@ title: Lord of the Strings
 description: A guitar robot that can strum and palm mute
 remote_theme: pages-themes/slate
 markdown: kramdown
+baseurl: "/ece3140-sp2025/ahl92-am2736-nsv23"
 navigation:
   - title: Overview
     url: /

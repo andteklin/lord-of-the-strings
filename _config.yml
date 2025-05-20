@@ -7,16 +7,16 @@ plugins:
 - jekyll-remote-theme # add this line to you plugin list if you are using a different setup
 nav:
   - title: Overview
-    url: {{site.baseurl}}/
+    url: /
   - title: Technical Approach
-    url: {{site.baseurl}}/technical
+    url: /technical
   - title: Testing/Debugging Approach
-    url: {{site.baseurl}}/testing
+    url: /testing
   - title: Teamwork
-    url: {{site.baseurl}}/team
+    url: /team
   - title: Media/Demo
-    url: {{site.baseurl}}/media
+    url: /media
   - title: Future Improvements
-    url: {{site.baseurl}}/improv
+    url: /improv
   - title: Outside Resources
-    url: {{site.baseurl}}/resources
+    url: /resources

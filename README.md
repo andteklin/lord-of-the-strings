@@ -7,7 +7,7 @@ The Markdown interface is easy, but if you would like to do something different 
 We would like your final project page to have the following structure:
 - A very catchy title
 - An overview section about the project
-- A system diagrm that shows the major hw/sw components and how they interact 
+- A system diagram that shows the major hw/sw components and how they interact 
 - A short video (3-4 min) that covers:
   - Who you are
   - Project title and idea

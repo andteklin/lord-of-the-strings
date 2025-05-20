@@ -7,10 +7,21 @@ nav_order: 3
 ### Mechanical Approach
 This servo-controlled guitar robot integrates both strumming motion and palm muting through a compact mechanical system consisting of three main components. First, the **mounting structure** consists of a PLA-printed plate secured near the bridge of the guitar using two adjustable clamps. This plate serves as the base for securing two hobby servos: one for **strumming** and one for **muting**. 
 
-The **strumming servo** will have a PLA-printed arm with a mounted pick to perform the strumming motion. The muting servo will have a PLA-printed arm with felt attached to the end to mute the strings. Both arms will extend over all six strings to provide strumming and muting capabilities. The plate, servo mounts, and arms will be CAD-designed by the team, while the clamps will be purchased.
+The **strumming servo** is attached to a PLA-printed arm with a clamp for the guitar pick. This arm is designed to sweep across all six strings in upstroke/downstroke motions. The **muting servo** uses a 3D-printed linear actuator mechanism that moves a horizontal bar up and down to simulate palm muting. The bar contains a damping material (felt or foam pad) to mute the strings. 
+
+Both arms extend over all six strings to provide strumming and muting capabilities. The plate, servo mounts, and actuator arms are desgined by the team using CAD, while the clamps will be purchased off-the-shelf.
+
+![Mechanical System Diagram]
 
 ### Electrical Approach
-The electric components of the system include a 5V power supply, two SG90 hobby servos, buttons, and the FRDM board. A switch will be connected from the output of the power supply to the rest of the circuit. The FRDM board will output PWM signals to the two servos sequentially, connected from a GPIO output pin on the FRDM to the signal input on the servo. 
+The system is powered by a 5V power supply that feeds two MG90S hobby servos and the FRDM-KL46Z board. Each servo's signal is driven by TPM-generated PWM outputs via the GPIO pins. Four momentary tactile buttons are wired between ground and the internal pull-ups on the GPIO pin along with a 0.1 µF capacitor for debouncing presses. These buttons will control the tempo, pattern, and mute toggle. Below is a system diagram of the pins used on the board.
+
+![Electrical System Diagram]
 
 ### Software Approach
-We use PWM signaling for servo control similar to the PWM signals we sent to the LEDs in lab 2. However, this time we use TPM (Timer PWM Module) to have the PWM signals continously sent without using the CPU. Different rhythms can be programmed using a time division of quarter, eighth, and sixteenth notes along with muting. The onboard buttons can be used to toggle between different programmed styles and palm mute.
+Continous, hardware-driven PWM signaling is used for servo control thorugh the KL46Z's **TPM (Timer/PWM Module)**. This module is standalone and offloaded from the CPU, resulting in continuous servo operation and parallel processing on the CPU. Initially, the team was inspired by Lab 2's implementation of an assembly-level PWM delay to achieve delay precision. However, the discovery of the TPM connected to certain GPIO ports seemed more promising and reliable as a hardware implementation of delays, as well as maintained continuous PWM signals without using the CPU. 
+
+A PIT interrupt every 10ms drives a scheduler to walk through an array of 
+Different rhythmic patterns can be programmed using a time division of quarter, eighth, and sixteenth notes along with muting. The onboard buttons can be used to toggle between different programmed styles and palm mute.
+
+![Software System Diagram]

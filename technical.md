@@ -21,7 +21,8 @@ The system is powered by a 5V power supply that feeds two MG90S hobby servos and
 ### Software Approach
 Continous, hardware-driven PWM signaling is used for servo control thorugh the KL46Z's **TPM (Timer/PWM Module)**. This module is standalone and offloaded from the CPU, resulting in continuous servo operation and parallel processing on the CPU. Initially, the team was inspired by Lab 2's implementation of an assembly-level PWM delay to achieve delay precision. However, the discovery of the TPM connected to certain GPIO ports seemed more promising and reliable as a hardware implementation of delays, as well as maintained continuous PWM signals without using the CPU. 
 
-A PIT interrupt every 10ms drives a scheduler to walk through an array of 
+A **PIT interrupt** is fired every 10ms drives a scheduler that runs a pre-programmed rhythmic pattern.
+
 Different rhythmic patterns can be programmed using a time division of quarter, eighth, and sixteenth notes along with muting. The onboard buttons can be used to toggle between different programmed styles and palm mute.
 
 ![Software System Diagram]

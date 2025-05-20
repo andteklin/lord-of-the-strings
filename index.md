@@ -4,34 +4,5 @@ The Lord of the Strings is more than just a simple guitar strummer. This robot i
 ## Video    
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4oN9tlPXdls?si=k9DWxZWXGWzzSCU3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-![Sketch](images/sketch.jpg)
-![image](images/20250514_233430.jpg)
-
 ## System Diagram
 ![image](images/System%20Diagram.jpg)
-
-## Testing and Debugging
-### Mechanical Aspect
-One of the main challenges we faced in this project was refining the design of the strumming arm. It took several iterations to resolve issues related to mechanical noise, instability, and ensuring the arm had the proper range of motion without interfering with the muting components. We also encountered clearance issues with the pick, as it initially couldn't reach the strings—this required careful adjustments to address positioning and reach. Assembling the servo mounts onto the main mounting plate was also a challenge; it took a while to finalize optimal locations for functionality and support. 
-I wish we had more accurately measured where the servo mounts needed to go beforehand, as the mounting plate took a long time to print—making redesigns and reprints time-consuming.  Also, the guitar neck is not exactly flat, but rounded.  This was highlighted when our muting mechanism only really muted the top three strings and less on the bottom strings because they are positioned vertically lower due to the guitar’s design. Additionally, we had to CAD a custom servo mount to ensure the servo stood upright rather than laterally for proper strumming motion. One thing I really wish we had known before starting was the bioacoustic effect of the servo and pick—the vibrations produced a surprisingly loud mechanical noise. Unlike strumming by hand, where your fingers absorb a lot of that vibration and you mainly hear the strings, the strumming arm amplified both the string and mechanical sounds. Understanding that earlier would have informed our material and design choices for quieter operation. These experiences highlighted the importance of planning for mechanical tolerances, acoustic behavior, and clearance early in the design process.
-
-### Electrical Aspect
-
-### Software Aspect
-The most time-consuming aspect was implementing PWM in C. We were dealing with issues early on with getting the correct clock period and PWM cycle of 50Hz. We ended up going into the MCUXpresso clock settings and changing the core clock to 48MHz from the original 20.97MHz. This allowed us to set the correct calulations for servo motion using the TPM (Timer PWM Module). We then tweaked the values of the TPM period in order to achieve near-perfect 50Hz frequency for PWM. The oscilloscope was connected to the PWM signal to help us debug the issue of the clock and TPM period.
-![image](images/48MHz%20working!.PNG)
-Another major issue was fixing the PIT timer which apparently runs on bus clock rather than the system core clock. The PIT timer was used to check the current state and move on to the next strumming or muting movement at the correct time. This caused us to run into BPM issues as a quarter note at 120 BPM was actually playing at 60 BPM. To prevent this from happening we simply divide the system core clock by 2 when setting the PIT timer period. This resolved the issue of the unexpected BPM.
-
-## Work Distribution
-We organized tasks into mechanical design, electrical setup, and coding. Andrew primarily worked on coding and debuggin the FRDM board to control the servo PWM pulses and button control. Adin worked on the mechanical design for the string muting system and helped with code debugging and servo signal pulsing. Nathan designed the servo-controlled strumming arm, servo mount, and mounting plate that clamps onto the guitar. He also coded the strumming patterns and cleaned up the code.
-
-## Outside Resources 
-We took some inspiration in mounting the plate to the guitar as well as for the strumming motion from this resource we found online: https://www.instructables.com/AutoStrummer/
-Understanding how buttons work: https://www.circuitbasics.com/how-to-connect-and-program-push-buttons-on-the-arduino/
-MG90S datasheet: https://components101.com/motors/mg90s-metal-gear-servo-motor
-FRDM board schematic: https://www.openhacks.com/uploadsproductos/frdm-kl46z_sch.pdf
-TPM module inspiration: https://community.nxp.com/t5/Kinetis-Software-Development-Kit/How-to-set-Timer-PWM-Module-for-controlling-ESC/m-p/532399
-Initial inspiration: https://hackaday.com/2018/01/31/strumbot-the-guitar-that-strums-itself/ 
-KL46Z pinout: https://os.mbed.com/platforms/FRDM-KL46Z/
-
-In addition, we used ChatGPT and GitHub Copilot to help write and debug some of the code. It was able to give a good high-level implementation but lacked understanding of certain modules like the TPM and clock constraints. Thus, we still put in significant effort to debug and get the servos working. 

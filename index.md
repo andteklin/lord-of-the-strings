@@ -1,5 +1,9 @@
-## Pages
+---
+layout: default
+title: Overview
+---
 
+## Pages
 [Overview](/) | [Technical Approach](/technical) | [Testing & Debugging](/testing)
 - [Teamwork](/team)
 - [Media/Demo](/media)

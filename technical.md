@@ -3,8 +3,8 @@ layout: default
 title: Technical Approach
 nav_order: 3
 ---
-## Technical Approach
-### Mechanical Approach
+# Technical Approach
+## Mechanical Approach
 This servo-controlled guitar robot integrates both strumming motion and palm muting through a compact mechanical system consisting of three main components. First, the **mounting structure** consists of a PLA-printed plate secured near the bridge of the guitar using two adjustable clamps. This plate serves as the base for securing two hobby servos: one for **strumming** and one for **muting**. 
 
 The **strumming servo** is attached to a PLA-printed arm with a clamp for the guitar pick. This arm is designed to sweep across all six strings in upstroke/downstroke motions. The **muting servo** uses a 3D-printed linear actuator mechanism that moves a horizontal bar up and down to simulate palm muting. The bar contains a damping material (felt or foam pad) to mute the strings. 
@@ -13,7 +13,7 @@ Both arms extend over all six strings to provide strumming and muting capabiliti
 
 ![Mechanical System Diagram]
 
-### Electrical Approach
+## Electrical Approach
 The system is powered by a 5V power supply that feeds two MG90S hobby servos and the FRDM-KL46Z board. Each servo's signal is driven by TPM-generated PWM outputs via the GPIO pins. Four momentary tactile buttons are wired between ground and the internal pull-up resistors on the GPIO pin along with a 0.1 µF capacitor for debouncing presses. These buttons will control the tempo, pattern, and mute toggle. 
 ![GPIO Pull-Down](/images/GPIO%20pull-down.png)
 
@@ -21,8 +21,8 @@ Below is a system diagram of the pins used on the board.
 
 ![Electrical System Diagram]
 
-### Software Approach
-#### Driving PWM signals to servos
+## Software Approach
+### Driving PWM signals to servos
 Continous, hardware-driven PWM signaling is used for servo control thorugh the KL46Z's **TPM (Timer/PWM Module)**. This module is standalone and offloaded from the CPU, resulting in continuous servo operation and parallel processing on the CPU. Initially, the team was inspired by Lab 2's implementation of an assembly-level PWM delay to achieve delay precision. However, the discovery of the TPM connected to certain GPIO ports seemed more promising and reliable as a hardware implementation of delays, as well as maintained continuous PWM signals without using the CPU. An implementation of PWM using TPM can be found in `pwm.c`. 
 
 With TPM, a prescaler and modulus (MOD) value can be set to define the frequency of the PWM signal. A clock source is chosen, then divided by the prescaler and modulus to produce the frequency. That is, 
@@ -34,7 +34,7 @@ The final TPM module runs on a 48MHz core clock and 64 prescaler. More precise P
 
 To simplify servo angle conversions to CnV values for the TPM, the helper function `angle_to_CnV(angle)` takes in an angle value from 0-180 degrees and converts the angle to the appropriate CnV value based on the TPM. That is, since 1-2ms is 1/20 to 1/10 of the 20ms PWM period, this proportion can be applied to the total ticks (`MOD` value) to get the CnV value. ~750-1500 ticks serves as the range of the CnV value for pulse widths between 1-2ms given the final TPM clock configruation.
 
-#### FSM for Strumming/Muting
+### FSM for Strumming/Muting
 An incremental design approach was taken in designing a finite-state machine (FSM) and scheduler that would accomodate both strumming and muting motions. First, the strumming motion was isolated, defining a `StrumState` struct that contained four states: `STRUM_DOWN`, `STRUM_UP`, `MUTE_ON`, and `MUTE_OFF`. Then, a timestamp-based scheduler struct `TimeStep` was defined to schedule certain servo motions at a specified time starting from t=0 ms. Using a timestamp-based scheduler is not necessarily convenient for modifying the movement patterns, since note lengths (or note values) make more sense to the everyday musician. 
 
 Consequently, the `StrumStep` struct in `strummer.h` was created, using note lengths as the duration for which the program should remain in a certain state. This scheduler uses a timebase of the value of a 16th note (in milliseconds). There are 60000 ms in a minute, so dividing this value by the BPM value and dividing again by 4 results in the duration of a sixteenth note (in ms). Furthemore, integer multipliers of the sixteenth note are used to define the 8th, dotted 8th, and quarter note length value, which is 2x, 3x, and 4x the ms value of a sixteenth note respectively. Most duple-time rhythms can be derived from a combination of these note lengths. 
@@ -48,7 +48,7 @@ The PIT timer is configured to trigger an interrupt every 10ms, serving as the c
 
 Insid the interrupt service routine (ISR), the scheduler periodically checks whether the current `ComboStep` is complete by checking `remaining_ms`. If there is still time left (>10 ms), then this variable is decremented by 10ms. Once the duration has been fulfilled, then it advances to the next step in the pattern by calling `strummer_update()` which updates the global states and variables for the step counter and duration. This acts as a real-time task scheduling algorithm, dealing with multiple real-time processes and context switching to other states by a defined schedule without necessarily busy-waiting on the CPU. 
 
-#### Button Implementations
+### Button Implementations
 The onboard buttons are used to toggle between different programmed styles, palm mute, and change tempo. Using the GPIO ISR, interrupts are fired on the falling edge (i.e. when the button is pressed and sending the signal to ground). These interrupts trigger the specific toggles as mentioned earlier. 
 
 Similar to how context switches work with processes, the relevant global variables and states must be reset to adapt to the newly pattern context. To assist with pattern selection, a helper function `strummer_selectPattern(pid, doLoop)` takes in the process id and whether to loop the strumming pattern. 

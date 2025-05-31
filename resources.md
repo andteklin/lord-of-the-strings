@@ -3,13 +3,30 @@ layout: default
 title: Outside Resources
 nav_order: 7
 ---
-## Outside Resources 
-We took some inspiration in mounting the plate to the guitar as well as for the strumming motion from this resource we found online: https://www.instructables.com/AutoStrummer/
-Understanding how buttons work: https://www.circuitbasics.com/how-to-connect-and-program-push-buttons-on-the-arduino/
-MG90S datasheet: https://components101.com/motors/mg90s-metal-gear-servo-motor
-FRDM board schematic: https://www.openhacks.com/uploadsproductos/frdm-kl46z_sch.pdf
-TPM module inspiration: https://community.nxp.com/t5/Kinetis-Software-Development-Kit/How-to-set-Timer-PWM-Module-for-controlling-ESC/m-p/532399
-Initial inspiration: https://hackaday.com/2018/01/31/strumbot-the-guitar-that-strums-itself/ 
-KL46Z pinout: https://os.mbed.com/platforms/FRDM-KL46Z/
 
-In addition, we used ChatGPT and GitHub Copilot to help write and debug some of the code. It was able to give a good high-level implementation but lacked understanding of certain modules like the TPM and clock constraints. Thus, we still put in significant effort to debug and get the servos working. 
+## Outside Resources
+
+We drew inspiration for the mounting plate and strumming motion from this guide:  
+🔗 [AutoStrummer – Instructables](https://www.instructables.com/AutoStrummer/)
+
+To understand how push buttons work in embedded systems, we referred to:  
+🔗 [How to Connect and Program Push Buttons – Circuit Basics](https://www.circuitbasics.com/how-to-connect-and-program-push-buttons-on-the-arduino/)
+
+Servo motor specifications and limitations were referenced from the datasheet:  
+🔗 [MG90S Metal Gear Servo – Components101](https://components101.com/motors/mg90s-metal-gear-servo-motor)
+
+We used the FRDM-KL46Z schematic to understand pin mappings and electrical design:  
+🔗 [FRDM-KL46Z Schematic – OpenHacks](https://www.openhacks.com/uploadsproductos/frdm-kl46z_sch.pdf)
+
+For PWM signal generation using the TPM module, we referred to an NXP community discussion:  
+🔗 [How to Set Timer PWM Module for Controlling ESC – NXP](https://community.nxp.com/t5/Kinetis-Software-Development-Kit/How-to-set-Timer-PWM-Module-for-controlling-ESC/m-p/532399)
+
+An early source of project inspiration was this concept:  
+🔗 [Strumbot – Hackaday](https://hackaday.com/2018/01/31/strumbot-the-guitar-that-strums-itself/)
+
+Pin functions for the KL46Z board were cross-checked with the platform documentation:  
+🔗 [FRDM-KL46Z Pinout – mbed OS](https://os.mbed.com/platforms/FRDM-KL46Z/)
+
+---
+
+We also used AI coding assistants like **ChatGPT** and **GitHub Copilot** to help write and debug parts of the code. These tools provided helpful high-level guidance and structure, but they lacked specific knowledge of hardware modules like TPM and clock configuration. As a result, significant effort was still required to debug, tune the PWM signals, and achieve reliable servo behavior.

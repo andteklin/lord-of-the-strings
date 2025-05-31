@@ -3,5 +3,11 @@ layout: default
 title: Teamwork
 nav_order: 6
 ---
+
 ## Work Distribution
-We organized tasks into mechanical design, electrical setup, and coding. Andrew primarily worked on coding and debuggin the FRDM board to control the servo PWM pulses and button control. Adin worked on the mechanical design for the string muting system and helped with code debugging and servo signal pulsing. Nathan designed the servo-controlled strumming arm, servo mount, and mounting plate that clamps onto the guitar. He also coded the strumming patterns and cleaned up the code.
+
+We organized tasks into three main categories: mechanical design, electrical setup, and coding.
+
+- **Andrew** primarily worked on coding and debugging the FRDM board to control the servo PWM pulses and handle button inputs.
+- **Adin** focused on the mechanical design for the string muting system and also contributed to code debugging and testing servo signal generation.
+- **Nathan** designed the servo-controlled strumming arm, the servo mount, and the mounting plate that clamps onto the guitar. He also implemented strumming pattern logic and helped clean up and organize the codebase.

@@ -12,5 +12,4 @@ We also plan to use a clamp or 3D print some mounting mechanism to secure the se
 We will use a 3D printed arm screwed onto the servo horn.
 
 # Project Web-Page
-
-The project web-pages will also be hosted on github in this repo in the "page" branch. You can edit it by switching branches and modifying the files, or by pushing to the branch. Here is a link to a minimal web-page that you can edit and modify: [https://pages.github.coecis.cornell.edu/ece3140-sp2025/ahl92-am2736-nsv23](https://pages.github.coecis.cornell.edu/ece3140-sp2025/ahl92-am2736-nsv23)
+[https://pages.github.coecis.cornell.edu/ece3140-sp2025/ahl92-am2736-nsv23](https://pages.github.coecis.cornell.edu/ece3140-sp2025/ahl92-am2736-nsv23)

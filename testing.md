@@ -36,7 +36,7 @@ Later, the `StrumStep[]` scheduler was created and contains entries that use not
 
 The final implementation fuses both muting and strumming into a single step, `ComboStep`. Since each step updates both strum and mute states at the same time, strumming and muting have limited independence in this design. That is, muting can only change as the program advances to another strum step. This can be mitigated by maintaining the strum state while changing the mute state, allowing for some independence of the muting servo from the strumming servo. However, utilizing this technique would require adjusting the duration of other steps to maintain the desired strumming pattern. This issue is discussed in **Future Improvements** and compared against having two independent FSMs instead.
 
-**PIT Interrupts and Scheduling**\
+### PIT Interrupts
 Originally, we mistakenly assumed that the PIT timer was driven by the full system core clock. As a result, strumming patterns played at half speed, as a quarter note at 120 BPM was actually playing at 60 BPM. Dividing the system core clock by 2 and making the corresponding calculations resolved the timing discrepancies and restored the expected tempo.
 
 ### Support for multiple patterns and button toggles

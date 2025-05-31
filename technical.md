@@ -15,7 +15,7 @@ Both arms extend over all six strings to provide strumming and muting capabiliti
 
 ## Electrical Approach
 The system is powered by a 5V power supply that feeds two MG90S hobby servos and the FRDM-KL46Z board. Each servo's signal is driven by TPM-generated PWM outputs via the GPIO pins. Four momentary tactile buttons are wired between ground and the internal pull-up resistors on the GPIO pin along with a 0.1 µF capacitor for debouncing presses. These buttons will control the tempo, pattern, and mute toggle. 
-![GPIO Pull-Down](/images/GPIO%20pull-down.png)
+![GPIO Pull-Down](/images/GPIO%20pulldown.png)
 
 Below is a system diagram of the pins used on the board.
 

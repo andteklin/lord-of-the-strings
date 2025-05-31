@@ -8,8 +8,14 @@ nav_order: 3
 
 ## Mechanical Approach
 This servo-controlled guitar robot integrates both strumming motion and palm muting through a compact mechanical system consisting of three main components. First, the **mounting structure** consists of a PLA-printed plate secured near the bridge of the guitar using two adjustable clamps. This plate serves as the base for securing two hobby servos: one for **strumming** and one for **muting**.
+![Plate]
 
-The **strumming servo** is attached to a PLA-printed arm with a clamp for the guitar pick. This arm is designed to sweep across all six strings in upstroke/downstroke motions. The **muting servo** uses a 3D-printed linear actuator mechanism that moves a horizontal bar up and down to simulate palm muting. The bar contains a damping material (felt or foam pad) to mute the strings.
+The **strumming servo** is attached to a PLA-printed arm with a clamp for the guitar pick. This arm is designed to sweep across all six strings in upstroke/downstroke motions. 
+![Strumming Arm]
+
+The **muting servo** uses a 3D-printed linear actuator mechanism that moves a horizontal bar up and down to simulate palm muting. This linear actuator converts rotary servo motion to linear motion using a gear connected to a linear bar. The bar contains a damping material (felt or foam pad) to mute the strings.
+
+![Mute Bar]
 
 Both arms extend over all six strings to provide strumming and muting capabilities. The plate, servo mounts, and actuator arms are **designed** by the team using CAD, while the clamps will be purchased off-the-shelf.
 
@@ -18,11 +24,14 @@ Both arms extend over all six strings to provide strumming and muting capabiliti
 ## Electrical Approach
 The system is powered by a 5V power supply that feeds two MG90S hobby servos and the FRDM-KL46Z board. Each servo's signal is driven by TPM-generated PWM outputs via the GPIO pins. Four momentary tactile buttons are wired between ground and the internal pull-up resistors on the GPIO pins, along with a 0.1 µF capacitor for debouncing presses. These buttons control the tempo, pattern, and mute toggle.
 
-![GPIO Pull-Down](/images/GPIO%20pulldown.png)
+![GPIO Pulldown](images/GPIO%20pulldown.png)
 
-Below is a system diagram of the pins used on the board.
-
+The image below shows the entire circuit schematic.
 ![Electrical System Diagram]
+
+The image below shows which pins interface with the servos and buttons.
+
+![Pinout]
 
 ## Software Approach
 

@@ -21,6 +21,9 @@ We used the FRDM-KL46Z schematic to understand pin mappings and electrical desig
 For PWM signal generation using the TPM module, we referred to an NXP community discussion:  
 🔗 [How to Set Timer PWM Module for Controlling ESC – NXP](https://community.nxp.com/t5/Kinetis-Software-Development-Kit/How-to-set-Timer-PWM-Module-for-controlling-ESC/m-p/532399)
 
+In addition, we were inspired by a GitHub repo containing implementations of motor control on the FRDM board:
+🔗 [Hardware Tinkering](https://github.com/KayeJD/FRDM-KL46Z-Programming)
+
 An early source of project inspiration was this concept:  
 🔗 [Strumbot – Hackaday](https://hackaday.com/2018/01/31/strumbot-the-guitar-that-strums-itself/)
 

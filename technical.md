@@ -73,3 +73,5 @@ Switching between different patterns is similar to context switching with proces
 The mute toggle button updates the global mute state and overrides the previous mute state until the next step in the pattern where the mute state changes. If the pattern doesn't have mute changes, then the user has full control over the muting mechanism.
 
 ![Software System Diagram]
+
+{% include mathjax.html %}

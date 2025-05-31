@@ -50,3 +50,5 @@ Originally, we mistakenly assumed that the PIT timer used the full 48 MHz syst
 With accurate timing established by the PIT scheduler, the next goal was enabling pattern switching and muting via buttons. Buttons connected to port interrupts were used to toggle between patterns and muting states.
 
 Initially, button presses failed due to incorrect wiring to high voltage. Port interrupts trigger on a connection to ground, so the button was rewired with one side to the port and the other to ground. While this fixed the logic, multiple presses were sometimes registered for a single press. A capacitor was added in parallel for debouncing, which reduced—though did not eliminate—the issue. Nevertheless, the buttons functioned as needed for switching between strumming patterns.
+
+{% include mathjax.html %}

@@ -27,3 +27,5 @@ Momentum in the strumming arm caused the strumming servo to keep moving back and
 In addition, improvements can be made to the strumming arm itself with regards to the pick's angle of attack with the strings. Given the position of the servo right above the lowest string and the initially straight strumming arm, the pick's angle of attack with the strings was close to 30 degrees at the highest point and almost 60 degrees at the low point of the downstroke. Thus, such an improvement to reduce this angle of attack was made, but the angle point was set too close to the actual pivot point of the servo. This resulted in a few degrees of change with the pick's angle of attack. 
 
 In the future, the angle point can be placed closer to the end of the arm near where the pick is located and farther away from the pivot point (servo horn). This way, the pick would make less of an angle with the strings and produce the desired tone quality.
+
+{% include mathjax.html %}

@@ -7,7 +7,9 @@ nav_order: 1
 # Lord of the Strings
 
 ## Overview
-The **Lord of the Strings** is more than just a simple guitar strummer. This robot also features palm muting—a technique used by advanced guitarists to dampen strings and enhance rhythmic articulation. The integration of both palm muting and strumming actions on an acoustic guitar introduces unique mechanical and timing challenges, including precise servo control with PWM and synchronization between strumming and muting.
+The **Lord of the Strings** is more than just a guitar strummer. It's a guitar-playing robot that drives multiple servo motors in real time to dynamically strum and palm mute strings in programmable patterns. This system demonstrates precise timing and motion control just by using simple hobby servos. 
+
+Palm muting, a technique used by advanced guitarists to dampen strings and enhance rhythmic articulation, is a key feature of this system. The integration of both palm muting and strumming actions on an acoustic guitar introduces unique mechanical and timing challenges, such as precise PWM-based servo control and tight synchronization between strumming and muting actions.
 
 Our original goal was to program a microcontroller to control both the strumming speed and style. The current implementation allows users to switch between pre-programmed strumming styles and toggle palm muting using external buttons. To achieve precise strumming patterns, we used the TPM (Timer/PWM Module) to drive the servos and the PIT (Periodic Interrupt Timer) to schedule strumming and muting actions with precise timing.
 

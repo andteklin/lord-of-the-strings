@@ -1,5 +1,5 @@
 title: Lord of the Strings
-description: A guitar robot that can strum and palm mute
+description: A guitar-playing robot that strums and palm mutes with precise, programmable patterns.
 remote_theme: just-the-docs/just-the-docs
 markdown: kramdown
 kramdown:

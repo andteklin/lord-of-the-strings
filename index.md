@@ -11,7 +11,7 @@ The **Lord of the Strings** is more than just a guitar strummer. It's a guitar-p
 
 Palm muting, a technique used by advanced guitarists to dampen strings and enhance rhythmic articulation, is a key feature of this system. The integration of both palm muting and strumming actions on an acoustic guitar introduces unique mechanical and timing challenges, such as precise PWM-based servo control and tight synchronization between strumming and muting actions.
 
-Our original goal was to program a microcontroller to control both the strumming speed and style. The current implementation allows users to switch between pre-programmed strumming styles and toggle palm muting using external buttons. To achieve precise strumming patterns, we used the TPM (Timer/PWM Module) to drive the servos and the PIT (Periodic Interrupt Timer) to schedule strumming and muting actions with precise timing.
+Our original goal was to program a microcontroller to control both the strumming speed and style. The current implementation allows users to switch between pre-programmed strumming styles and toggle palm muting using external buttons. To achieve precise strumming patterns, the TPM (Timer/PWM Module) is used to drive the servos and the PIT (Periodic Interrupt Timer) to schedule strumming and muting actions with precise timing.
 
 ## Pages
 [Overview]({{ site.baseurl }}/) |
